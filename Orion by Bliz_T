@@ -31,9 +31,18 @@ local OrionLib = {
 			Divider = Color3.fromRGB(80, 120, 200), -- Azul bebê mais escuro para divisores
 			Text = Color3.fromRGB(180, 220, 255), -- Azul bebê claro para textos
 			TextDark = Color3.fromRGB(150, 180, 230) -- Azul bebê amarelado para texto secundário
-		}
+		},
+
+       SoudHub = {
+    Main = Color3.fromRGB(10, 0, 15), -- Roxo quase preto para o fundo
+    Second = Color3.fromRGB(25, 0, 35), -- Roxo bem escuro para contraste
+    Stroke = Color3.fromRGB(180, 100, 255), -- Roxo/lilás claro para detalhes
+    Divider = Color3.fromRGB(120, 60, 200), -- Roxo médio para divisores
+    Text = Color3.fromRGB(220, 180, 255), -- Roxo claro para textos principais
+    TextDark = Color3.fromRGB(180, 140, 230) -- Roxo mais suave para texto secundário
+} 
 	},
-	SelectedTheme = "Bliz_T",
+	SelectedTheme = "SoudHub",
 	Folder = nil,
 	SaveCfg = false
 }
