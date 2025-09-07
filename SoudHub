@@ -1,1 +1,2096 @@
-local a=loadstring(game:HttpGet("https://raw.githubusercontent.com/BlizTBr/scripts/refs/heads/main/Orion%20X"))()a.Themes.b={Main=Color3.fromRGB(10,0,15),Second=Color3.fromRGB(25,0,35),Stroke=Color3.fromRGB(180,100,255),Divider=Color3.fromRGB(120,60,200),Text=Color3.fromRGB(220,180,255),TextDark=Color3.fromRGB(180,140,230)}a.SelectedTheme="b"local c={["SoudHub"]=true,["NiggaHub"]=true,["E2fs01vnmisca"]=true}local d=false;local e=""local f=a:MakeWindow({Name="Soud Hub PC",HidePremium=false,SaveConfig=true,ConfigFolder="NiggaHubConfig",IntroEnabled=true,IntroText="Nigger Loaded"})local g=game.Players.LocalPlayer;local h=game:GetService("ReplicatedStorage")local i=game:GetService("UserInputService")local j=workspace.CurrentCamera;local k=g:GetMouse()local l=workspace:WaitForChild(g.Name.."SpawnedInToys")local m=0;local n=false;local o=true;local p=false;local q=nil;local r=false;local s=false;local t=true;local u=false;local v=true;local w=Enum.KeyCode.T;local x=nil;local y=false;local z=false;local A=false;local B=0;local C=0;local D=nil;local E=nil;local F=false;local G=nil;local H=nil;local I=false;local J=16;local K=false;local L=50;local M=false;local N=false;local O=CFrame.new()local P=nil;local Q=false;local R=false;local S=false;local T=1;local U={BlobmanDelay=0.005,ToyToLoad="BombMissile",MaxMissiles=9}local V=false;local W={}local X={}local Y=400;local Z=false;local _=nil;local a0={throwStrength=100,forceEnabled=false,slideHeight=50,autoHeight=false,infiniteMode=false}local a1=Instance.new("Highlight")a1.Name="highlight"a1.Enabled=true;a1.FillTransparency=0.9;a1.OutlineTransparency=0;local a2=Instance.new("BillboardGui")a2.Name="billboard"a2.Size=UDim2.new(0,100,0,150)a2.StudsOffset=Vector3.new(0,1,0)a2.AlwaysOnTop=true;local a3=Instance.new("ScrollingFrame")a3.Name="scrollframe"a3.ScrollingEnabled=true;a3.BackgroundTransparency=0.7;local a4=Instance.new("TextLabel")a4.Name="textlabel"a4.TextScaled=true;a4.BackgroundTransparency=1;local a5=1;local a6=nil;local a7=nil;local a8={}local a9=nil;local aa=nil;local function ab()a:MakeNotification({Name="Força de Arremesso Ajustada",Content="Força definida para: "..Y,Time=3})end;local function ac()if _ then _:Disconnect()end;_=workspace.ChildAdded:Connect(function(ad)if ad.Name=="GrabParts"and Z then local ae=ad.GrabPart.WeldConstraint.Part1;if ae then local af=Instance.new("BodyVelocity",ae)ad:GetPropertyChangedSignal("Parent"):Connect(function()if not ad.Parent then if i:GetLastInputType()==Enum.UserInputType.MouseButton2 then af.MaxForce=Vector3.new(math.huge,math.huge,math.huge)af.Velocity=workspace.CurrentCamera.CFrame.LookVector*Y;game:GetService("Debris"):AddItem(af,1)else af:Destroy()end end end)end end end)end;local function ag()Z=true;ac()a:MakeNotification({Name="Sistema de Força Ativado",Content="Sistema de força de arremesso ativado",Time=3})end;local function ah()Z=false;if _ then _:Disconnect()_=nil end;a:MakeNotification({Name="Sistema de Força Desativado",Content="Sistema de força de arremesso desativado",Time=3})end;local function ai()a:MakeNotification({Name="Altura Ajustada",Content="Altura dos slides ajustada para: "..a0.slideHeight,Time=3})end;local function aj()a:MakeNotification({Name="Altura Automática Ativada",Content="Altura automática ativada",Time=3})end;local function ak()a:MakeNotification({Name="Modo Infinito Ajustado",Content="Modo infinito: "..tostring(a0.infiniteMode),Time=3})end;local function al()a:MakeNotification({Name="Estilo Flexbox Aplicado",Content="Estilo flexbox aplicado com sucesso",Time=3})end;local function am(an)a:MakeNotification({Name="Cor de Fundo Alterada",Content="Cor de fundo dos slides alterada",Time=3})end;local function ao()a0.throwStrength=100;a0.forceEnabled=false;a0.slideHeight=50;a0.autoHeight=false;a0.infiniteMode=false;Y=400;Z=false;if _ then _:Disconnect()_=nil end;a:MakeNotification({Name="Configurações Resetadas",Content="Todas as configurações foram resetadas",Time=3})end;local function ap()a:MakeNotification({Name="Recursos Premium Carregados",Content="Aproveite os recursos premium!",Time=3})end;if not table.find then table.find=function(aq,ar)for as,at in ipairs(aq)do if at==ar then return as end end;return nil end end;local function au()if G then G:Destroy()G=nil end;if H then H:Destroy()H=nil end;B=0;C=0;D=nil;E=nil;A=false end;local function av()return i.InputBegan:Connect(function(aw,ax)if ax then return end;if aw.KeyCode==w then local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")if not az then return end;if k.Target then az.CFrame=CFrame.new(k.Hit.X,k.Hit.Y+5,k.Hit.Z)end end end)end;local function aA()local ay=g.Character;if not ay then return end;local aB=ay:FindFirstChild("Humanoid")if not aB then return end;if I then aB.WalkSpeed=J else aB.WalkSpeed=16 end;aB:GetPropertyChangedSignal("WalkSpeed"):Connect(function()if I then aB.WalkSpeed=J else aB.WalkSpeed=16 end end)end;local function aC()local ay=g.Character;if not ay then return end;local aB=ay:FindFirstChild("Humanoid")if not aB then return end;if K then aB.JumpPower=L else aB.JumpPower=50 end end;local function aD()local ay=g.Character;if not ay then return end;while N and task.wait(0.1)do for aE,aF in pairs(ay:GetChildren())do if aF:IsA("BasePart")then aF.CanCollide=false end end end;if not N then for aE,aF in pairs(ay:GetChildren())do if aF:IsA("BasePart")then aF.CanCollide=true end end end end;local function aG()local ay=g.Character;if not ay then return end;local aB=ay:FindFirstChild("Humanoid")if not aB then return end;i.JumpRequest:Connect(function()if K and not M then M=true;aB:ChangeState(Enum.HumanoidStateType.Jumping)task.wait()M=false end end)end;local function aH()i.JumpRequest:Connect(function()if K and not M then M=true;local aB=g.Character and g.Character:FindFirstChildOfClass("Humanoid")if aB then aB:ChangeState(Enum.HumanoidStateType.Jumping)end;task.wait()M=false end end)end;local function aI()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;if k.Target then if D and D==k.Target.Parent then au()return true end;au()if k.Target.Parent:FindFirstChildOfClass("Humanoid")then B=1;C=0 elseif k.Target.Parent:IsDescendantOf(workspace.Plots)then local aJ=k.Target;repeat aJ=aJ.Parent until aJ==nil or string.match(aJ.Name,"Plot")if aJ then for aK=1,5 do if aJ.Name=="Plot"..aK then C=aK end end;B=2 end elseif k.Target.Parent:IsDescendantOf(workspace.PlotItems)or(k.Target.Parent.Parent and string.match(k.Target.Parent.Parent.Name,"SpawnedInToys"))or(k.Target.Parent.Parent and k.Target.Parent.Parent:FindFirstChild("SpawningPlatform"))then B=3;C=0 else B=4;C=0 end;return false end;return false end;local function aL()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;local aM=aI()if aM then return end;if not F then F=true;if y and B~=0 then if B==1 then D=k.Target.Parent;E=k.Target;G=a1:Clone()G.Adornee=k.Target.Parent;G.Parent=k.Target;G.FillColor=Color3.fromRGB(255,255,255)G.OutlineColor=Color3.fromRGB(160,11,11)elseif B==2 then D=workspace.Plots:FindFirstChild("Plot"..C)E=k.Target;G=a1:Clone()G.Adornee=workspace.Plots:FindFirstChild("Plot"..C)G.Parent=k.Target;G.FillColor=Color3.fromRGB(255,255,255)G.OutlineColor=Color3.fromRGB(0,60,180)elseif B==3 then D=k.Target.Parent;E=k.Target;G=a1:Clone()G.Adornee=k.Target.Parent;G.Parent=k.Target;G.FillColor=Color3.fromRGB(255,255,255)G.OutlineColor=Color3.fromRGB(20,170,20)elseif B==4 then D=k.Target.Parent;E=k.Target;G=a1:Clone()G.Adornee=k.Target.Parent;G.Parent=k.Target;G.FillColor=Color3.fromRGB(255,255,255)G.OutlineColor=Color3.fromRGB(180,20,180)end else au()end;task.wait(0.1)F=false end end;local function aN()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;if not A and z and y and B~=0 and E~=nil and D~=nil then A=true;H=a2:Clone()H.Adornee=D;H.Parent=E;local aO=a3:Clone()aO.Parent=H;aO.Size=UDim2.new(0,160,0,60)aO.ScrollBarImageTransparency=1;local aP=a4:Clone()aP.Parent=aO;aP.Size=UDim2.new(0,140,0,30)aP.Position=UDim2.new(0,0,0,0)local aQ=a4:Clone()aQ.Parent=aO;aQ.Size=UDim2.new(0,140,0,30)aQ.Position=UDim2.new(0,0,0,30)if B==1 then local aR=game.Players:FindFirstChild(D.Name)if aR then aP.Text="Username: "..aR.Name;aQ.Text="Display: "..aR.DisplayName else aP.Text=D.Name;aQ.Text=""end else aP.Text=D.Name;aQ.Text=""end elseif not z and A or not y and A then A=false;if H then H:Destroy()H=nil end end end;local function aS()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;if y and B~=2 and B~=4 then O=az.CFrame;az.CFrame=D.PrimaryPart.CFrame+Vector3.new(7,3,0)task.wait(0.15)if B==1 then local aT=D:FindFirstChild("HumanoidRootPart")if aT then pcall(function()h.GrabEvents.SetNetworkOwner:FireServer(aT,aT.CFrame)end)task.wait(0.1)aT.CFrame=O end else local aU=D.PrimaryPart;if aU then pcall(function()h.GrabEvents.SetNetworkOwner:FireServer(aU,aU.CFrame)end)task.wait(0.1)aU.CFrame=O end end;az.CFrame=O elseif not y then if k.Target and k.Target.Parent then if k.Target.Parent:IsDescendantOf(workspace.PlotItems)or(k.Target.Parent.Parent and string.match(k.Target.Parent.Parent.Name,"SpawnedInToys"))or(k.Target.Parent.Parent and k.Target.Parent.Parent:FindFirstChild("SpawningPlatform"))or k.Target.Parent:FindFirstChildOfClass("Humanoid")then O=az.CFrame;local aV=k.Target;az.CFrame=aV.Parent.PrimaryPart.CFrame+Vector3.new(10,3,0)task.wait(0.15)if aV.Parent:FindFirstChildOfClass("Humanoid")then local aT=aV.Parent:FindFirstChild("HumanoidRootPart")if aT then pcall(function()h.GrabEvents.SetNetworkOwner:FireServer(aT,aT.CFrame)end)task.wait(0.1)aT.CFrame=O end else local aU=aV.Parent.PrimaryPart;if aU then pcall(function()h.GrabEvents.SetNetworkOwner:FireServer(aU,aU.CFrame)end)task.wait(0.1)aU.CFrame=O end end;az.CFrame=O end end end end;local function aW()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;workspace.ChildAdded:Connect(function(ad)if ad.Name=="Part"and ay~=nil and v then local aX=(ad.Position-az.Position).Magnitude;if aX<=20 then az.Anchored=true;task.wait(0.01)local aY=ay:FindFirstChild("Right Arm")if aY and aY:FindFirstChild("RagdollLimbPart")then while aY.RagdollLimbPart.CanCollide==true do task.wait(0.001)end end;az.Anchored=false end end end)end;local function aZ()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;while s and task.wait()do if g:FindFirstChild("IsHeld")and g.IsHeld.Value==true and s==true then if az~=nil then if t then az.Anchored=true;while g.IsHeld.Value==true do pcall(function()h.CharacterEvents.Struggle:FireServer(g)end)task.wait(0.001)end;az.Anchored=false elseif not t then while g.IsHeld.Value==true do pcall(function()h.CharacterEvents.Struggle:FireServer(g)end)task.wait(0.001)end end end end end end;local function a_()workspace.DescendantAdded:Connect(function(b0)if b0.Name=="CreatureBlobman"and b0.Parent~=l and u then task.wait()local b1=b0:FindFirstChild("LeftDetector")local b2=b0:FindFirstChild("RightDetector")if b1 then b1:Destroy()end;if b2 then b2:Destroy()end end end)end;local function b3()local ay=g.Character;if not ay then return end;if ay.Parent==workspace then m=0 elseif ay.Parent.Name=="PlayersInPlots"then for b4,b5 in workspace.Plots:GetChildren()do local b6=b5.PlotSign and b5.PlotSign:FindFirstChild("ThisPlotsOwners")if b6 then for b7,b8 in b6:GetChildren()do if b8.Value==g.Name then m=tonumber(b5.Name:match("%d+"))or 0;return end end end end end end;local function b9()local ay=g.Character;if not ay then return end;b3()if m==0 then if l then return l:FindFirstChild("CreatureBlobman")end;return nil else local ba=workspace.PlotItems:FindFirstChild("Plot"..m)if ba then return ba:FindFirstChild("CreatureBlobman")end;return nil end end;local function bb()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;local bc=h:WaitForChild("MenuToys"):WaitForChild("SpawnToyRemoteFunction")if bc then pcall(function()bc:InvokeServer("CreatureBlobman",az.CFrame*CFrame.new(0,0,-5),Vector3.new(0,-15.716,0))end)task.wait(1)q=b9()end end;local function bd()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;if q and o then if m==0 then local be={[1]=q}local bf=h:FindFirstChild("MenuToys")and h.MenuToys:FindFirstChild("DestroyToy")if bf then pcall(function()bf:FireServer(unpack(be))end)end;q=nil else local ba=workspace.Plots:FindFirstChild("Plot"..m)if ba and ba:FindFirstChild("TeslaCoil")then local bg=ba.TeslaCoil:FindFirstChild("ZapPart")if bg then q.HumanoidRootPart.CFrame=bg.CFrame end end;q=nil end end end;local function bh()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;if r then return end;r=true;while p do if ay and az then local be={[1]=az,[2]=0}pcall(function()h:WaitForChild("CharacterEvents"):WaitForChild("RagdollRemote"):FireServer(unpack(be))end)end;task.wait()end;r=false end;local function bi()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")local aB=ay:FindFirstChild("Humanoid")if not az or not aB then return end;local bj=tick()while n and tick()-bj<6 do if q then local bk=q:FindFirstChildWhichIsA("VehicleSeat")if bk and bk.Occupant~=aB then bk:Sit(aB)end end;task.wait(0.1)if ay and aB then aB:ChangeState(Enum.HumanoidStateType.Jumping)end;task.wait(0.1)end;if q then bd()end;n=false;p=false end;local function bl(bm,bn,bo)local bp=Instance.new("BodyPosition")local bq=Instance.new("BodyGyro")bp.P=15000;bp.D=200;bp.MaxForce=Vector3.new(5000000,5000000,5000000)bp.Position=bn;bp.Parent=bm;bq.P=15000;bq.D=200;bq.MaxTorque=Vector3.new(5000000,5000000,5000000)bq.CFrame=bo;bq.Parent=bm end;local function br()for bs,bt in ipairs(W)do if bt then if bt:FindFirstChild("BodyPosition")then bt.BodyPosition:Destroy()end;if bt:FindFirstChild("BodyGyro")then bt.BodyGyro:Destroy()end end end;for bs,bu in ipairs(X)do bu:Disconnect()end;W={}X={}end;local function bv()while V and task.wait()do pcall(function()local bw=workspace:FindFirstChild("GrabParts")if not bw then return end;local bx=bw:FindFirstChild("GrabPart")if not bx then return end;local by=bx:FindFirstChild("WeldConstraint")if not by or not by.Part1 then return end;local bz=by.Part1;if not bz then return end;local bA=false;for bs,bB in ipairs(W)do if bB==bz then bA=true;break end end;if not bA then for bs,bC in ipairs(bz:GetChildren())do if bC:IsA("BodyPosition")or bC:IsA("BodyGyro")then bC:Destroy()end end;bl(bz,bz.Position,bz.CFrame)table.insert(W,bz)a:MakeNotification({Name="Objeto Ancorado",Content="Objeto fixado com sucesso",Time=2})end end end)end end;local function bD(bE,bF)local bG=bE.Parent;while bG do if bG==bF then return true end;bG=bG.Parent end;return false end;local function bH(bI)local bI=bI or l:FindFirstChildWhichIsA("Model")h.MenuToys.DestroyToy:FireServer(bI)end;local function bJ(bK,a6)if a5==1 then if bK.Character and bK.Character:FindFirstChild("HumanoidRootPart")then local be={[1]=a6:FindFirstChild("LeftDetector"),[2]=bK.Character:FindFirstChild("HumanoidRootPart"),[3]=a6:FindFirstChild("LeftDetector"):FindFirstChild("LeftWeld")}a6:WaitForChild("BlobmanSeatAndOwnerScript"):WaitForChild("CreatureGrab"):FireServer(unpack(be))a5=2 end else if bK.Character and bK.Character:FindFirstChild("HumanoidRootPart")then local be={[1]=a6:FindFirstChild("RightDetector"),[2]=bK.Character:FindFirstChild("HumanoidRootPart"),[3]=a6:FindFirstChild("RightDetector"):FindFirstChild("RightWeld")}a6:WaitForChild("BlobmanSeatAndOwnerScript"):WaitForChild("CreatureGrab"):FireServer(unpack(be))a5=1 end end end;local function bL(bM)if bM then if not a9 then a9=coroutine.create(function()aa=l.ChildAdded:Connect(function(bN)if bN.Name==U.ToyToLoad and bN:WaitForChild("ThisToysNumber",1)then if bN.ThisToysNumber.Value==(l.ToyNumber.Value-1)then local bO;bO=l.ChildRemoved:Connect(function(bP)if bP==bN then bO:Disconnect()end end)h.GrabEvents.SetNetworkOwner:FireServer(bN.Body,bN.Body.CFrame)local bQ=bN.Body:WaitForChild("PartOwner",0.5)local bR=bN.DescendantAdded:Connect(function(bS)if bS.Name=="PartOwner"then if bS.Value~=g.Name then bH(bN)bR:Disconnect()end end end)game:GetService("Debris"):AddItem(bR,60)if bQ and bQ.Value==g.Name then for bT,bU in pairs(bN:GetChildren())do if bU:IsA("BasePart")then bU.CanCollide=false end end;bN:SetPrimaryPartCFrame(CFrame.new(-72.9304581,-3.96906614,-265.543732))task.wait(0.2)for bT,bU in pairs(bN:GetChildren())do if bU:IsA("BasePart")then bU.Anchored=true end end;table.insert(a8,bN)bN.AncestryChanged:Connect(function()if not bN.Parent then for bV,bW in ipairs(a8)do if bW==bN then table.remove(a8,bV)break end end end end)bO:Disconnect()else bH(bN)end end end end)while true do if g:FindFirstChild("CanSpawnToy")and g.CanSpawnToy.Value and#a8<U.MaxMissiles and g.Character:FindFirstChild("Head")then local bc=h:WaitForChild("MenuToys"):WaitForChild("SpawnToyRemoteFunction")bc:InvokeServer(U.ToyToLoad,g.Character.Head.CFrame or g.Character.HumanoidRootPart.CFrame,Vector3.new(0,0,0))end;task.wait()end end)coroutine.resume(a9)end else if a9 then coroutine.close(a9)a9=nil end;if aa then aa:Disconnect()end end end;local function bX()local bY={}for bZ,b_ in ipairs(game.Players:GetPlayers())do if b_~=g then table.insert(bY,b_.Name)end end;return bY end;local function c0(b_)local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")if not az then return end;local c1=b_.Character;if not c1 then return end;local c2=c1:FindFirstChild("HumanoidRootPart")if not c2 then return end;az.CFrame=c2.CFrame end;local function c3()while S and task.wait(T)do bb()task.wait(0.5)if q then local ay=g.Character;if ay and ay:FindFirstChild("HumanoidRootPart")then local aB=q:FindFirstChildOfClass("Humanoid")if aB then aB:MoveTo(ay.HumanoidRootPart.Position)end end;task.wait(3)bd()end end end;x=av()aH()local c4=f:MakeTab({Name="Antis",Icon="rbxassetid://13180179055",PremiumOnly=false})c4:AddToggle({Name="AntiExplode",Default=true,Callback=function(c5)v=c5;if c5 then aW()a:MakeNotification({Name="Anti-Explode Ativado!",Content="Proteção contra explosões ativada",Time=3})else a:MakeNotification({Name="Anti-Explode Desativado!",Content="Proteção contra explosões desativada",Time=3})end end})c4:AddToggle({Name="AntiGrab",Default=true,Callback=function(c5)s=c5;if c5 then coroutine.wrap(aZ)()a:MakeNotification({Name="Anti-Grab Ativado!",Content="Proteção contra grabs ativada",Time=3})else a:MakeNotification({Name="Anti-Grab Desativado!",Content="Proteção contra grabs desativada",Time=3})end end})c4:AddToggle({Name="AntiGrab Anchor",Default=true,Callback=function(c5)t=c5 end})c4:AddToggle({Name="AntiBlob",Default=false,Callback=function(c5)u=c5;if c5 then a_()a:MakeNotification({Name="Anti-Blob Ativado!",Content="Proteção contra blobs ativada",Time=3})else a:MakeNotification({Name="Anti-Blob Desativado!",Content="Proteção contra blobs desativada",Time=3})end end})c4:AddButton({Name="Auto Gucci ▶",Callback=function()n=true;bb()task.wait(1.1)if not p then coroutine.wrap(bi)()p=true end;coroutine.wrap(bh)()a:MakeNotification({Name="Auto Gucci Ativado!",Content="Executando Auto Gucci por 6 segundos...",Time=3})end})c4:AddToggle({Name="Destroy Auto Gucci",Default=true,Callback=function(c5)o=c5 end})local c6=f:MakeTab({Name="Players",Icon="rbxassetid://11984980776",PremiumOnly=false})c6:AddToggle({Name="Infinite Jump",Default=false,Callback=function(c5)K=c5;if c5 then a:MakeNotification({Name="Infinite Jump Ativado!",Content="Pulo infinito ativado",Time=3})else a:MakeNotification({Name="Infinite Jump Desativado!",Content="Pulo infinito desativado",Time=3})end end})c6:AddToggle({Name="WalkSpeed",Default=false,Callback=function(c5)I=c5;aA()if c5 then a:MakeNotification({Name="WalkSpeed Ativado!",Content="WalkSpeed: "..J,Time=3})else a:MakeNotification({Name="WalkSpeed Desativado!",Content="WalkSpeed padrão",Time=3})end end})c6:AddSlider({Name="WalkSpeed Value",Min=16,Max=250,Default=16,Color=Color3.fromRGB(255,255,255),Increment=1,ValueName="WalkSpeed",Callback=function(c5)J=c5;if I then aA()end end})c6:AddToggle({Name="NoClip",Default=false,Callback=function(c5)N=c5;if c5 then aD()a:MakeNotification({Name="NoClip Ativado!",Content="NoClip ativado",Time=3})else a:MakeNotification({Name="NoClip Desativado!",Content="NoClip desativado",Time=3})end end})c6:AddSlider({Name="Jump Power",Min=50,Max=550,Default=50,Color=Color3.fromRGB(255,255,255),Increment=1,ValueName="JumpPower",Callback=function(c5)L=c5;if K then aC()end end})local c7=f:MakeTab({Name="Linhas",Icon="rbxassetid://124620632231839",PremiumOnly=false})c7:AddSection({Name="Força de Arremesso"})c7:AddSlider({Name="Intensidade da Força",Min=100,Max=5000,Default=Y,Color=Color3.fromRGB(255,255,255),Increment=10,ValueName="unidades",Callback=function(c5)Y=c5;ab()end})c7:AddToggle({Name="Ativar Sistema de Força",Default=false,Callback=function(c5)if c5 then ag()else ah()end end})c7:AddSection({Name="Controle de Altura de Slides"})c7:AddSlider({Name="Altura dos Slides",Min=50,Max=500,Default=a0.slideHeight,Color=Color3.fromRGB(255,255,255),Increment=10,ValueName="pixels",Callback=function(c5)a0.slideHeight=c5;ai()end})c7:AddToggle({Name="Altura Automática",Default=a0.autoHeight,Callback=function(c5)a0.autoHeight=c5;if c5 then aj()end end})c7:AddToggle({Name="Modo Infinito",Default=a0.infiniteMode,Callback=function(c5)a0.infiniteMode=c5;ak()end})c7:AddButton({Name="Aplicar Estilo Flexbox",Callback=function()al()end})c7:AddSection({Name="Utilitários"})c7:AddColorpicker({Name="Cor de Fundo",Default=Color3.fromRGB(204,204,204),Callback=function(c5)am(c5)end})c7:AddButton({Name="Resetar Configurações",Callback=function()ao()end})local c8=f:MakeTab({Name="Main",Icon="rbxassetid://124620632231839",PremiumOnly=false})c8:AddDropdown({Name="Keybind de Teleporte",Default="Z",Options={"Z","Q","R","F","G","T"},Callback=function(c5)w=Enum.KeyCode[c5]a:MakeNotification({Name="Keybind Alterada",Content="Tecla de teleporte alterada para: "..c5,Time=3})end})c8:AddButton({Name="Teleporte (Clique Único)",Callback=function()local ay=g.Character;if not ay then return end;local az=ay:FindFirstChild("HumanoidRootPart")if not az then return end;local k=g:GetMouse()if k.Target then az.CFrame=CFrame.new(k.Hit.X,k.Hit.Y+5,k.Hit.Z)end end})c8:AddButton({Name="Script do Bliz_T",Callback=function()loadstring(game:HttpGet("https://raw.githubusercontent.com/BlizTBr/scripts/refs/heads/main/FTAP.lua"))()end})c8:AddButton({Name="Fechar UI",Callback=function()a:Destroy()end})c8:AddButton({Name="Mais Inf",Callback=function()a:MakeNotification({Name="Mais Inf",Content="Desative Todas as opções para evitar bugs"})end})local c9=f:MakeTab({Name="Inspect/Bring",Icon="rbxassetid://6523858394",PremiumOnly=false})c9:AddToggle({Name="Modo Inspeção",Default=false,Callback=function(c5)y=c5;if c5 then aL()a:MakeNotification({Name="Inspeção Ativada!",Content="Aponte para objetos para inspecionar",Time=3})else au()a:MakeNotification({Name="Inspeção Desativada!",Content="Modo de inspeção desativado",Time=3})end end})c9:AddToggle({Name="Mostrar Info",Default=false,Callback=function(c5)z=c5;if c5 then aN()else if H then H:Destroy()H=nil end;A=false end end})c9:AddButton({Name="Trazer Objeto",Callback=function()aS()a:MakeNotification({Name="Objeto Trazido",Content="Objeto inspecionado foi trazido para sua posição",Time=3})end})c9:AddBind({Name="Keybind Inspeção (Toggle)",Default=Enum.KeyCode.Y,Hold=false,Callback=function()y=not y;if y then aL()a:MakeNotification({Name="Inspeção Ativada!",Content="Modo inspeção ativado - Aponte para objetos",Time=3})else au()a:MakeNotification({Name="Inspeção Desativada!",Content="Modo inspeção desativado",Time=3})end end})c9:AddBind({Name="Limpar Inspeção",Default=Enum.KeyCode.U,Hold=false,Callback=function()au()a:MakeNotification({Name="Inspeção Limpa",Content="Objeto inspecionado foi desmarcado",Time=2})end})c9:AddLabel("Seleção de Players")local ca=c9:AddDropdown({Name="Selecionar Player",Default="Nenhum",Options={"Nenhum"},Callback=function(c5)if c5=="Nenhum"then P=nil else P=game.Players[c5]end end})local function cb()local bY=bX()table.insert(bY,1,"Nenhum")ca:Refresh(bY,true)end;c9:AddButton({Name="Atualizar Lista de Players",Callback=function()cb()a:MakeNotification({Name="Lista Atualizada",Content="Lista de players atualizada",Time=2})end})c9:AddButton({Name="Teleportar para Player",Callback=function()if P then c0(P)a:MakeNotification({Name="Teleportado",Content="Teleportado para "..P.Name,Time=3})else a:MakeNotification({Name="Erro",Content="Nenhum player selecionado",Time=3})end end})c9:AddToggle({Name="Loop Teleport para Player",Default=false,Callback=function(c5)Q=c5;if c5 then a:MakeNotification({Name="Loop Teleport Ativado",Content="Teleportando para "..(P and P.Name or"Nenhum"),Time=3})while Q and P do c0(P)task.wait(0.1)end else a:MakeNotification({Name="Loop Teleport Desativado",Content="Loop de teleporte desativado",Time=3})end end})c9:AddButton({Name="Trazer Player (InspectBring)",Callback=function()if P then local cc=y;local cd=B;local ce=D;y=true;B=1;D=P.Character;aS()y=cc;B=cd;D=ce;a:MakeNotification({Name="Player Trazido",Content=P.Name.." foi trazido para você usando InspectBring",Time=3})else a:MakeNotification({Name="Erro",Content="Nenhum player selecionado",Time=3})end end})c9:AddToggle({Name="Loop Trazer Player (InspectBring)",Default=false,Callback=function(c5)R=c5;if c5 then a:MakeNotification({Name="Loop Trazer Ativado",Content="Trazendo "..(P and P.Name or"Nenhum").." usando InspectBring",Time=3})while R and P do local cc=y;local cd=B;local ce=D;y=true;B=1;D=P.Character;aS()y=cc;B=cd;D=ce;task.wait(0.1)end else a:MakeNotification({Name="Loop Trazer Desativado",Content="Loop de trazer desativado",Time=3})end end})local cf=f:MakeTab({Name="Anchor Grab",Icon="rbxassetid://10709782497",PremiumOnly=false})cf:AddLabel("Sistema Anchor Grab - Fixa objetos ao agarrar")cf:AddToggle({Name="Anchor Grab",Default=false,Callback=function(c5)V=c5;if c5 then coroutine.wrap(bv)()a:MakeNotification({Name="Anchor Grab Ativado",Content="Objetos serão fixados ao agarrar",Time=3})else br()a:MakeNotification({Name="Anchor Grab Desativado",Content="Sistema de fixação desativado",Time=3})end end})cf:AddBind({Name="Keybind Anchor Grab (Toggle)",Default=Enum.KeyCode.K,Hold=false,Callback=function()V=not V;if V then coroutine.wrap(bv)()a:MakeNotification({Name="Anchor Grab Ativado",Content="Tecla K - Objetos serão fixados ao agarrar",Time=3})else br()a:MakeNotification({Name="Anchor Grab Desativado",Content="Tecla K - Sistema de fixação desativado",Time=3})end end})cf:AddButton({Name="Limpar Objetos Ancorados",Callback=function()br()a:MakeNotification({Name="Objetos Limpos",Content="Todos os objetos ancorados foram liberados",Time=3})end})cf:AddLabel("Instruções:")cf:AddLabel("1. Ative o Anchor Grab")cf:AddLabel("2. Agarre um objeto para fixá-lo")cf:AddLabel("3. Use a tecla K para toggle rápido")cf:AddLabel("4. Use o botão para limpar todos")local cg=f:MakeTab({Name="Blobman",Icon="rbxassetid://129000779735197",PremiumOnly=false})cg:AddLabel("Sistema Blobman Avançado")cg:AddToggle({Name="Destroy server",Default=false,Callback=function(c5)if c5 then local ch=false;for ci,cj in pairs(workspace:GetDescendants())do if cj.Name=="CreatureBlobman"then if cj:FindFirstChild("VehicleSeat")and cj.VehicleSeat:FindFirstChild("SeatWeld")and bD(cj.VehicleSeat.SeatWeld.Part1,g.Character)then a6=cj;ch=true;break end end end;if not ch then a:MakeNotification({Name="Erro",Content="Você deve estar montado em um Blobman para ativar esta função!",Time=5,Image=4483362458})return end;a7=coroutine.create(function()while true do pcall(function()for ci,ck in pairs(game.Players:GetChildren())do if a6 and ck~=g then bJ(ck,a6)task.wait(U.BlobmanDelay)end end end)task.wait(0.02)end end)coroutine.resume(a7)a:MakeNotification({Name="Destroy Server Ativado",Content="Sistema de destruição ativado",Time=3})else if a7 then coroutine.close(a7)a7=nil;a6=nil end;a:MakeNotification({Name="Destroy Server Desativado",Content="Sistema de destruição desativado",Time=3})end end})cg:AddSlider({Name="Destroy server Speed",Min=0.05,Max=1,Default=0.5,Color=Color3.fromRGB(255,255,255),Increment=0.01,ValueName="segundos",Callback=function(c5)U.BlobmanDelay=c5 end})cg:AddToggle({Name="Recarregar Mísseis",Default=false,Callback=function(c5)bL(c5)if c5 then a:MakeNotification({Name="Recarga Ativada",Content="Sistema de recarga de mísseis ativado",Time=3})else a:MakeNotification({Name="Recarga Desativada",Content="Sistema de recarga de mísseis desativado",Time=3})end end})cg:AddDropdown({Name="Tipo de Míssil",Default="BombMissile",Options={"BombMissile","Bomb","BombNuclear"},Callback=function(c5)U.ToyToLoad=c5;a:MakeNotification({Name="Míssil Selecionado",Content="Míssil definido para: "..c5,Time=3})end})cg:AddSlider({Name="Quantidade Máxima",Min=1,Max=20,Default=9,Color=Color3.fromRGB(255,255,255),Increment=1,ValueName="mísseis",Callback=function(c5)U.MaxMissiles=c5 end})cg:AddButton({Name="Spawnar Blobman",Callback=function()bb()if q then a:MakeNotification({Name="Blobman Spawnado",Content="Blobman foi spawnado com sucesso",Time=3})else a:MakeNotification({Name="Erro",Content="Falha ao spawnar Blobman",Time=3})end end})cg:AddButton({Name="Destruir Blobman",Callback=function()bd()a:MakeNotification({Name="Blobman Destruído",Content="Blobman foi destruído com sucesso",Time=3})end})cg:AddButton({Name="Auto Gucci ▶",Callback=function()n=true;bb()task.wait(1.1)if not p then coroutine.wrap(bi)()p=true end;coroutine.wrap(bh)()a:MakeNotification({Name="Auto Gucci Ativado!",Content="Executando Auto Gucci por 6 segundos...",Time=3})end})local cl=f:MakeTab({Name="Premium",Icon="rbxassetid://11322089611",PremiumOnly=false})cl:AddButton({Name="Open Premium",Callback=function()a:MakeNotification({Name="Premium",Content="Você deve clicar em get premium para obter",Time=3})end})cl:AddButton({Name="Ativar Premium",Callback=function()if c[e]then d=true;a:MakeNotification({Name="Premium Ativado!",Content="Recursos premium desbloqueados!",Image="rbxassetid://4483345998",Time=5})ap()else a:MakeNotification({Name="Chave Inválida",Content="Verifique sua chave e tente novamente.",Image="rbxassetid://4483345998",Time=5})end end})local cm=f:MakeTab({Name="Creditos",Icon="rbxassetid://10910211661",PremiumOnly=false})cm:AddLabel("Criador: Pato_Soud (l3vitomol2314)")cm:AddLabel("Testes: Caius (pepoooooooii5)")cm:AddLabel("Hub: Bliz_T (Blizz_T)")cb()local cn=a:GetConfig()if cn and cn.PremiumAtivo then d=true;e=cn.ChaveAtivacao or""a:MakeNotification({Name="Bem-vindo de volta!",Content="Seu premium está ativo!",Time=3})end;a:Init()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BlizTBr/scripts/refs/heads/main/Orion%20X"))()
+
+-- Tema roxo personalizado
+OrionLib.Themes.Purple_T = {
+    Main     = Color3.fromRGB(10, 0, 15),
+    Second   = Color3.fromRGB(25, 0, 35), 
+    Stroke   = Color3.fromRGB(180, 100, 255),
+    Divider  = Color3.fromRGB(120, 60, 200),
+    Text     = Color3.fromRGB(220, 180, 255),
+    TextDark = Color3.fromRGB(180, 140, 230)
+}
+
+OrionLib.SelectedTheme = "Purple_T"
+
+-- Tabela de chaves válidas
+local chavesValidas = {
+    ["SoudHub"] = true,
+    ["NiggaHub"] = true,
+    ["E2fs01vnmisca"] = true
+}
+
+local premiumAtivo = false
+local chaveInserida = ""
+
+-- Cria janela principal
+local Window = OrionLib:MakeWindow({
+    Name = "Soud Hub PC",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "NiggaHubConfig",
+    IntroEnabled = true,
+    IntroText = "Nigger Loaded"
+})
+
+-- Variáveis necessárias
+local plr = game.Players.LocalPlayer
+local rs = game:GetService("ReplicatedStorage")
+local uis = game:GetService("UserInputService")
+local cam = workspace.CurrentCamera
+local mouse = plr:GetMouse()
+local inv = workspace:WaitForChild(plr.Name.."SpawnedInToys")
+local currentHouseS = 0
+
+-- Variáveis do Auto Gucci
+local autoGucciT = false
+local destroyAutoGucciT = true
+local sitJumpT = false
+local blobmanInstanceS = nil
+local ragdollLoopD = false
+
+-- Variáveis do Anti-Grab
+local antiGrabT = false
+local antiGrabAnchorT = true
+local antiBlobT = false
+local antiExplodeT = true
+
+-- Variáveis para o sistema de teleporte
+local teleportKeybind = Enum.KeyCode.T
+local teleportConnection = nil
+
+-- Variáveis para o sistema de inspeção
+local inspectT = false
+local inspectInfoT = false
+local inspectInfoOnT = false
+local currentInspectS = 0
+local currentHouseInspectS = 0
+local currentInspectedAdorneeS = nil
+local currentInspectedPartS = nil
+local inspectD = false
+local highlightInstance = nil
+local billboardInstance = nil
+
+-- Variáveis para Player Tab
+local walkSpeedT = false
+local walkSpeedV = 16
+local infJumpT = false
+local jumpPowerV = 50
+local infJumpD = false
+local noClipT = false
+local returnPosS = CFrame.new()
+
+-- Variáveis para Player Selection
+local selectedPlayer = nil
+local teleportLoop = false
+local bringLoop = false
+
+-- Variáveis para Blobman Tab
+local blobmanAutoFarm = false
+local blobmanFarmSpeed = 1
+local _G = {
+    BlobmanDelay = 0.005,
+    ToyToLoad = "BombMissile",
+    MaxMissiles = 9
+}
+
+-- Variáveis para Anchor Grab
+local anchorGrabEnabled = false
+local anchoredParts = {}
+local anchoredConnections = {}
+
+-- Variáveis para Linhas (Sistema de Força)
+local lineStrength = 400
+local lineForceEnabled = false
+local lineStrengthConnection = nil
+
+-- Configurações para Linhas Tab
+local Config = {
+    throwStrength = 100,
+    forceEnabled = false,
+    slideHeight = 50,
+    autoHeight = false,
+    infiniteMode = false
+}
+
+-- Instâncias para inspeção
+local highlight = Instance.new("Highlight")
+highlight.Name = "highlight"
+highlight.Enabled = true
+highlight.FillTransparency = 0.9
+highlight.OutlineTransparency = 0
+
+local billboard = Instance.new("BillboardGui")
+billboard.Name = "billboard"
+billboard.Size = UDim2.new(0, 100, 0, 150)
+billboard.StudsOffset = Vector3.new(0, 1, 0)
+billboard.AlwaysOnTop = true
+
+local scrollframe = Instance.new("ScrollingFrame")
+scrollframe.Name = "scrollframe"
+scrollframe.ScrollingEnabled = true
+scrollframe.BackgroundTransparency = 0.7
+
+local textlabel = Instance.new("TextLabel")
+textlabel.Name = "textlabel"
+textlabel.TextScaled = true
+textlabel.BackgroundTransparency = 1
+
+-- Variáveis do sistema Blobman do script fornecido
+local blobalter = 1
+local blobman = nil
+local blobmanCoroutine = nil
+local bombList = {}
+local reloadBombCoroutine = nil
+local connectionBombReload = nil
+
+-- Funções para Linhas Tab (Sistema de Força Real)
+local function aplicarForcaArremesso()
+    OrionLib:MakeNotification({
+        Name = "Força de Arremesso Ajustada",
+        Content = "Força definida para: " .. lineStrength,
+        Time = 3
+    })
+end
+
+local function setupLineStrength()
+    if lineStrengthConnection then
+        lineStrengthConnection:Disconnect()
+    end
+    
+    lineStrengthConnection = workspace.ChildAdded:Connect(function(model)
+        if model.Name == "GrabParts" and lineForceEnabled then
+            local partToImpulse = model.GrabPart.WeldConstraint.Part1
+            if partToImpulse then
+                local velocityObj = Instance.new("BodyVelocity", partToImpulse)
+                model:GetPropertyChangedSignal("Parent"):Connect(function()
+                    if not model.Parent then
+                        if uis:GetLastInputType() == Enum.UserInputType.MouseButton2 then
+                            velocityObj.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                            velocityObj.Velocity = workspace.CurrentCamera.CFrame.LookVector * lineStrength
+                            game:GetService("Debris"):AddItem(velocityObj, 1)
+                        else
+                            velocityObj:Destroy()
+                        end
+                    end
+                end)
+            end
+        end
+    end)
+end
+
+local function ativarSistemaForca()
+    lineForceEnabled = true
+    setupLineStrength()
+    OrionLib:MakeNotification({
+        Name = "Sistema de Força Ativado",
+        Content = "Sistema de força de arremesso ativado",
+        Time = 3
+    })
+end
+
+local function desativarSistemaForca()
+    lineForceEnabled = false
+    if lineStrengthConnection then
+        lineStrengthConnection:Disconnect()
+        lineStrengthConnection = nil
+    end
+    OrionLib:MakeNotification({
+        Name = "Sistema de Força Desativado",
+        Content = "Sistema de força de arremesso desativado",
+        Time = 3
+    })
+end
+
+-- Funções placeholders para as outras opções de Linhas
+local function ajustarAlturaSlides()
+    OrionLib:MakeNotification({
+        Name = "Altura Ajustada",
+        Content = "Altura dos slides ajustada para: " .. Config.slideHeight,
+        Time = 3
+    })
+end
+
+local function ativarAlturaAutomatica()
+    OrionLib:MakeNotification({
+        Name = "Altura Automática Ativada",
+        Content = "Altura automática ativada",
+        Time = 3
+    })
+end
+
+local function ajustarModoInfinito()
+    OrionLib:MakeNotification({
+        Name = "Modo Infinito Ajustado",
+        Content = "Modo infinito: " .. tostring(Config.infiniteMode),
+        Time = 3
+    })
+end
+
+local function aplicarEstiloFlexbox()
+    OrionLib:MakeNotification({
+        Name = "Estilo Flexbox Aplicado",
+        Content = "Estilo flexbox aplicado com sucesso",
+        Time = 3
+    })
+end
+
+local function aplicarCorFundoSlides(color)
+    OrionLib:MakeNotification({
+        Name = "Cor de Fundo Alterada",
+        Content = "Cor de fundo dos slides alterada",
+        Time = 3
+    })
+end
+
+local function resetarConfiguracoes()
+    Config.throwStrength = 100
+    Config.forceEnabled = false
+    Config.slideHeight = 50
+    Config.autoHeight = false
+    Config.infiniteMode = false
+    
+    lineStrength = 400
+    lineForceEnabled = false
+    
+    if lineStrengthConnection then
+        lineStrengthConnection:Disconnect()
+        lineStrengthConnection = nil
+    end
+    
+    OrionLib:MakeNotification({
+        Name = "Configurações Resetadas",
+        Content = "Todas as configurações foram resetadas",
+        Time = 3
+    })
+end
+
+local function loadPremiumFeatures()
+    OrionLib:MakeNotification({
+        Name = "Recursos Premium Carregados",
+        Content = "Aproveite os recursos premium!",
+        Time = 3
+    })
+end
+
+-- Função auxiliar table.find se não existir
+if not table.find then
+    table.find = function(t, value)
+        for i, v in ipairs(t) do
+            if v == value then
+                return i
+            end
+        end
+        return nil
+    end
+end
+
+-- FUNÇÃO PARA LIMPAR INSPEÇÃO
+local function clearInspection()
+    if highlightInstance then
+        highlightInstance:Destroy()
+        highlightInstance = nil
+    end
+    
+    if billboardInstance then
+        billboardInstance:Destroy()
+        billboardInstance = nil
+    end
+    
+    currentInspectS = 0
+    currentHouseInspectS = 0
+    currentInspectedAdorneeS = nil
+    currentInspectedPartS = nil
+    inspectInfoOnT = false
+end
+
+-- FUNÇÃO DE TELEPORTE POR KEYBIND
+local function setupTeleportKeybind()
+    return uis.InputBegan:Connect(function(input, gameProcessed)
+        if gameProcessed then return end
+        
+        if input.KeyCode == teleportKeybind then
+            local char = plr.Character
+            if not char then return end
+            local hrp = char:FindFirstChild("HumanoidRootPart")
+            if not hrp then return end
+            
+            if mouse.Target then 
+                hrp.CFrame = CFrame.new(mouse.Hit.X, mouse.Hit.Y + 5, mouse.Hit.Z)
+            end
+        end
+    end)
+end
+
+-- FUNÇÕES PLAYER TAB
+local function updateWalkSpeedF()
+    local char = plr.Character
+    if not char then return end
+    local hum = char:FindFirstChild("Humanoid")
+    if not hum then return end
+    
+    if walkSpeedT then
+        hum.WalkSpeed = walkSpeedV
+    else
+        hum.WalkSpeed = 16
+    end
+    
+    hum:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+        if walkSpeedT then
+            hum.WalkSpeed = walkSpeedV
+        else
+            hum.WalkSpeed = 16
+        end
+    end)
+end
+
+local function updateJumpPowerF()
+    local char = plr.Character
+    if not char then return end
+    local hum = char:FindFirstChild("Humanoid")
+    if not hum then return end
+    
+    if infJumpT then
+        hum.JumpPower = jumpPowerV
+    else
+        hum.JumpPower = 50
+    end
+end
+
+local function updateNoClipF()
+    local char = plr.Character
+    if not char then return end
+    
+    while noClipT and task.wait(0.1) do
+        for _, part in pairs(char:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end
+    
+    if not noClipT then
+        for _, part in pairs(char:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = true
+            end
+        end
+    end
+end
+
+local function updateInfJumpF()
+    local char = plr.Character
+    if not char then return end
+    local hum = char:FindFirstChild("Humanoid")
+    if not hum then return end
+    
+    uis.JumpRequest:Connect(function()
+        if infJumpT and not infJumpD then
+            infJumpD = true
+            hum:ChangeState(Enum.HumanoidStateType.Jumping)
+            task.wait()
+            infJumpD = false
+        end
+    end)
+end
+
+-- FUNÇÃO DE INFINITE JUMP
+local function setupInfiniteJump()
+    uis.JumpRequest:Connect(function()
+        if infJumpT and not infJumpD then
+            infJumpD = true
+            local hum = plr.Character and plr.Character:FindFirstChildOfClass("Humanoid")
+            if hum then
+                hum:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+            task.wait()
+            infJumpD = false
+        end
+    end)
+end
+
+-- FUNÇÕES DE INSPEÇÃO
+local function mouseTargetInspectF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    if mouse.Target then
+        -- Verifica se já está inspecionando o mesmo objeto
+        if currentInspectedAdorneeS and currentInspectedAdorneeS == mouse.Target.Parent then
+            clearInspection()
+            return true
+        end
+        
+        -- Limpa inspeção anterior
+        clearInspection()
+        
+        if mouse.Target.Parent:FindFirstChildOfClass("Humanoid") then
+            currentInspectS = 1
+            currentHouseInspectS = 0
+        elseif mouse.Target.Parent:IsDescendantOf(workspace.Plots) then
+            local current = mouse.Target
+            repeat
+                current = current.Parent
+            until current == nil or string.match(current.Name, "Plot")
+            
+            if current then
+                for i = 1, 5 do
+                    if current.Name == "Plot"..i then
+                        currentHouseInspectS = i
+                    end
+                end
+                currentInspectS = 2
+            end
+        elseif mouse.Target.Parent:IsDescendantOf(workspace.PlotItems) or 
+               (mouse.Target.Parent.Parent and string.match(mouse.Target.Parent.Parent.Name, "SpawnedInToys")) or 
+               (mouse.Target.Parent.Parent and mouse.Target.Parent.Parent:FindFirstChild("SpawningPlatform")) then
+            currentInspectS = 3
+            currentHouseInspectS = 0
+        else
+            currentInspectS = 4
+            currentHouseInspectS = 0
+        end
+        return false
+    end
+    return false
+end
+
+local function inspectF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    local isSameObject = mouseTargetInspectF()
+    
+    if isSameObject then
+        return
+    end
+    
+    if not inspectD then
+        inspectD = true
+        
+        if inspectT and currentInspectS ~= 0 then
+            if currentInspectS == 1 then
+                currentInspectedAdorneeS = mouse.Target.Parent
+                currentInspectedPartS = mouse.Target
+                highlightInstance = highlight:Clone()
+                highlightInstance.Adornee = mouse.Target.Parent
+                highlightInstance.Parent = mouse.Target
+                highlightInstance.FillColor = Color3.fromRGB(255, 255, 255)
+                highlightInstance.OutlineColor = Color3.fromRGB(160, 11, 11)
+            elseif currentInspectS == 2 then
+                currentInspectedAdorneeS = workspace.Plots:FindFirstChild("Plot"..currentHouseInspectS)
+                currentInspectedPartS = mouse.Target
+                highlightInstance = highlight:Clone()
+                highlightInstance.Adornee = workspace.Plots:FindFirstChild("Plot"..currentHouseInspectS)
+                highlightInstance.Parent = mouse.Target
+                highlightInstance.FillColor = Color3.fromRGB(255, 255, 255)
+                highlightInstance.OutlineColor = Color3.fromRGB(0, 60, 180)
+            elseif currentInspectS == 3 then
+                currentInspectedAdorneeS = mouse.Target.Parent
+                currentInspectedPartS = mouse.Target
+                highlightInstance = highlight:Clone()
+                highlightInstance.Adornee = mouse.Target.Parent
+                highlightInstance.Parent = mouse.Target
+                highlightInstance.FillColor = Color3.fromRGB(255, 255, 255)
+                highlightInstance.OutlineColor = Color3.fromRGB(20, 170, 20)
+            elseif currentInspectS == 4 then
+                currentInspectedAdorneeS = mouse.Target.Parent
+                currentInspectedPartS = mouse.Target
+                highlightInstance = highlight:Clone()
+                highlightInstance.Adornee = mouse.Target.Parent
+                highlightInstance.Parent = mouse.Target
+                highlightInstance.FillColor = Color3.fromRGB(255, 255, 255)
+                highlightInstance.OutlineColor = Color3.fromRGB(180, 20, 180)
+            end
+        else
+            clearInspection()
+        end
+        
+        task.wait(0.1)
+        inspectD = false
+    end
+end
+
+local function inspectInfoF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    if not inspectInfoOnT and inspectInfoT and inspectT and currentInspectS ~= 0 and currentInspectedPartS ~= nil and currentInspectedAdorneeS ~= nil then
+        inspectInfoOnT = true
+        billboardInstance = billboard:Clone()
+        billboardInstance.Adornee = currentInspectedAdorneeS
+        billboardInstance.Parent = currentInspectedPartS
+
+        local scrollframeC = scrollframe:Clone()
+        scrollframeC.Parent = billboardInstance
+        scrollframeC.Size = UDim2.new(0, 160, 0, 60)
+        scrollframeC.ScrollBarImageTransparency = 1 
+
+        local textlabelC1 = textlabel:Clone()
+        textlabelC1.Parent = scrollframeC
+        textlabelC1.Size = UDim2.new(0, 140, 0, 30)
+        textlabelC1.Position = UDim2.new(0, 0, 0, 0)
+        
+        local textlabelC2 = textlabel:Clone()
+        textlabelC2.Parent = scrollframeC
+        textlabelC2.Size = UDim2.new(0, 140, 0, 30)
+        textlabelC2.Position = UDim2.new(0, 0, 0, 30)
+        
+        if currentInspectS == 1 then
+            local player = game.Players:FindFirstChild(currentInspectedAdorneeS.Name)
+            if player then
+                -- Mostra ambos os nomes: username e display name
+                textlabelC1.Text = "Username: " .. player.Name
+                textlabelC2.Text = "Display: " .. player.DisplayName
+            else
+                textlabelC1.Text = currentInspectedAdorneeS.Name
+                textlabelC2.Text = ""
+            end
+        else
+            textlabelC1.Text = currentInspectedAdorneeS.Name
+            textlabelC2.Text = ""
+        end
+    elseif not inspectInfoT and inspectInfoOnT or not inspectT and inspectInfoOnT then
+        inspectInfoOnT = false
+        if billboardInstance then
+            billboardInstance:Destroy()
+            billboardInstance = nil
+        end
+    end
+end
+
+local function inspectBringF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    if inspectT and currentInspectS ~= 2 and currentInspectS ~= 4 then
+        returnPosS = hrp.CFrame
+        hrp.CFrame = currentInspectedAdorneeS.PrimaryPart.CFrame + Vector3.new(7, 3, 0)
+        task.wait(0.15)
+        
+        if currentInspectS == 1 then
+            local humanoidRootPart = currentInspectedAdorneeS:FindFirstChild("HumanoidRootPart")
+            if humanoidRootPart then
+                pcall(function()
+                    rs.GrabEvents.SetNetworkOwner:FireServer(humanoidRootPart, humanoidRootPart.CFrame)
+                end)
+                task.wait(0.1)
+                humanoidRootPart.CFrame = returnPosS
+            end
+        else
+            local primaryPart = currentInspectedAdorneeS.PrimaryPart
+            if primaryPart then
+                pcall(function()
+                    rs.GrabEvents.SetNetworkOwner:FireServer(primaryPart, primaryPart.CFrame)
+                end)
+                task.wait(0.1)
+                primaryPart.CFrame = returnPosS
+            end
+        end
+        hrp.CFrame = returnPosS
+    elseif not inspectT then
+        if mouse.Target and mouse.Target.Parent then
+            if mouse.Target.Parent:IsDescendantOf(workspace.PlotItems) or 
+               (mouse.Target.Parent.Parent and string.match(mouse.Target.Parent.Parent.Name, "SpawnedInToys")) or 
+               (mouse.Target.Parent.Parent and mouse.Target.Parent.Parent:FindFirstChild("SpawningPlatform")) or 
+               mouse.Target.Parent:FindFirstChildOfClass("Humanoid") then
+                returnPosS = hrp.CFrame
+                local mouseTargetS = mouse.Target
+                hrp.CFrame = mouseTargetS.Parent.PrimaryPart.CFrame + Vector3.new(10, 3, 0)
+                task.wait(0.15)
+                
+                if mouseTargetS.Parent:FindFirstChildOfClass("Humanoid") then
+                    local humanoidRootPart = mouseTargetS.Parent:FindFirstChild("HumanoidRootPart")
+                    if humanoidRootPart then
+                        pcall(function()
+                            rs.GrabEvents.SetNetworkOwner:FireServer(humanoidRootPart, humanoidRootPart.CFrame)
+                        end)
+                        task.wait(0.1)
+                        humanoidRootPart.CFrame = returnPosS
+                    end
+                else
+                    local primaryPart = mouseTargetS.Parent.PrimaryPart
+                    if primaryPart then
+                        pcall(function()
+                            rs.GrabEvents.SetNetworkOwner:FireServer(primaryPart, primaryPart.CFrame)
+                        end)
+                        task.wait(0.1)
+                        primaryPart.CFrame = returnPosS
+                    end
+                end
+                hrp.CFrame = returnPosS
+            end
+        end
+    end
+end
+
+-- FUNÇÃO ANTI-EXPLODE --
+local function antiExplodeF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    workspace.ChildAdded:Connect(function(model)
+        if model.Name == "Part" and char ~= nil and antiExplodeT then
+            local mag = (model.Position - hrp.Position).Magnitude
+            if mag <= 20 then
+                hrp.Anchored = true
+                task.wait(0.01)
+                local rightArm = char:FindFirstChild("Right Arm")
+                if rightArm and rightArm:FindFirstChild("RagdollLimbPart") then
+                    while rightArm.RagdollLimbPart.CanCollide == true do task.wait(0.001) end
+                end
+                hrp.Anchored = false
+            end
+        end
+    end)
+end
+
+-- FUNÇÕES ANTI-GRAB --
+local function antiGrabF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    while antiGrabT and task.wait() do
+        if plr:FindFirstChild("IsHeld") and plr.IsHeld.Value == true and antiGrabT == true then
+            if hrp ~= nil then
+                if antiGrabAnchorT then
+                    hrp.Anchored = true
+                    while plr.IsHeld.Value == true do 
+                        pcall(function()
+                            rs.CharacterEvents.Struggle:FireServer(plr)
+                        end)
+                        task.wait(0.001) 
+                    end
+                    hrp.Anchored = false
+                elseif not antiGrabAnchorT then
+                    while plr.IsHeld.Value == true do 
+                        pcall(function()
+                            rs.CharacterEvents.Struggle:FireServer(plr)
+                        end)
+                        task.wait(0.001) 
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function antiBlobF()
+    workspace.DescendantAdded:Connect(function(toy)
+        if toy.Name == "CreatureBlobman" and toy.Parent ~= inv and antiBlobT then
+            task.wait()
+            local leftDetector = toy:FindFirstChild("LeftDetector")
+            local rightDetector = toy:FindFirstChild("RightDetector")
+            if leftDetector then leftDetector:Destroy() end
+            if rightDetector then rightDetector:Destroy() end
+        end
+    end)
+end
+
+-- Funções necessárias para o Auto Gucci
+local function updateCurrentHouseF()
+    local char = plr.Character
+    if not char then return end
+    
+    if char.Parent == workspace then
+        currentHouseS = 0
+    elseif char.Parent.Name == "PlayersInPlots" then
+        for _, plot in workspace.Plots:GetChildren() do
+            local owners = plot.PlotSign and plot.PlotSign:FindFirstChild("ThisPlotsOwners")
+            if owners then
+                for _, owner in owners:GetChildren() do
+                    if owner.Value == plr.Name then
+                        currentHouseS = tonumber(plot.Name:match("%d+")) or 0
+                        return
+                    end
+                end
+            end
+        end
+    end
+end
+
+local function getBlobmanF()
+    local char = plr.Character
+    if not char then return end
+    
+    updateCurrentHouseF()
+    if currentHouseS == 0 then
+        if inv then return inv:FindFirstChild("CreatureBlobman") end
+        return nil
+    else
+        local plot = workspace.PlotItems:FindFirstChild("Plot"..currentHouseS)
+        if plot then
+            return plot:FindFirstChild("CreatureBlobman")
+        end
+        return nil
+    end
+end
+
+local function spawnBlobmanF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    local spawnRemote = rs:WaitForChild("MenuToys"):WaitForChild("SpawnToyRemoteFunction")
+    if spawnRemote then
+        pcall(function()
+            spawnRemote:InvokeServer("CreatureBlobman", hrp.CFrame*CFrame.new(0,0,-5), Vector3.new(0, -15.716, 0))
+        end)
+        task.wait(1)
+        blobmanInstanceS = getBlobmanF()
+    end
+end
+
+local function destroyBlobmanF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    if blobmanInstanceS and destroyAutoGucciT then
+        if currentHouseS == 0 then
+            local args = {[1] = blobmanInstanceS}
+            local destroyRemote = rs:FindFirstChild("MenuToys") and rs.MenuToys:FindFirstChild("DestroyToy")
+            if destroyRemote then 
+                pcall(function()
+                    destroyRemote:FireServer(unpack(args))
+                end)
+            end
+            blobmanInstanceS = nil
+        else
+            local plot = workspace.Plots:FindFirstChild("Plot"..currentHouseS)
+            if plot and plot:FindFirstChild("TeslaCoil") then
+                local zapPart = plot.TeslaCoil:FindFirstChild("ZapPart")
+                if zapPart then
+                    blobmanInstanceS.HumanoidRootPart.CFrame = zapPart.CFrame
+                end
+            end
+            blobmanInstanceS = nil
+        end
+    end
+end
+
+local function ragdollLoopF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    if ragdollLoopD then return end
+    ragdollLoopD = true
+    
+    while sitJumpT do
+        if char and hrp then
+            local args = {[1] = hrp, [2] = 0}
+            pcall(function()
+                rs:WaitForChild("CharacterEvents"):WaitForChild("RagdollRemote"):FireServer(unpack(args))
+            end)
+        end
+        task.wait()
+    end
+    
+    ragdollLoopD = false
+end
+
+local function sitJumpF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local hum = char:FindFirstChild("Humanoid")
+    if not hrp or not hum then return end
+    
+    local startTime = tick()
+    while autoGucciT and tick()-startTime < 6 do
+        if blobmanInstanceS then
+            local seat = blobmanInstanceS:FindFirstChildWhichIsA("VehicleSeat")
+            if seat and seat.Occupant ~= hum then 
+                seat:Sit(hum) 
+            end
+        end
+        task.wait(0.1)
+        if char and hum then 
+            hum:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+        task.wait(0.1)
+    end
+    
+    if blobmanInstanceS then 
+        destroyBlobmanF() 
+    end
+    autoGucciT = false
+    sitJumpT = false
+end
+
+-- FUNÇÕES PARA ANCHOR GRAB
+local function createBodyMovers(part, position, rotation)
+    local bodyPosition = Instance.new("BodyPosition")
+    local bodyGyro = Instance.new("BodyGyro")
+
+    bodyPosition.P = 15000
+    bodyPosition.D = 200
+    bodyPosition.MaxForce = Vector3.new(5000000, 5000000, 5000000)
+    bodyPosition.Position = position
+    bodyPosition.Parent = part
+
+    bodyGyro.P = 15000
+    bodyGyro.D = 200
+    bodyGyro.MaxTorque = Vector3.new(5000000, 5000000, 5000000)
+    bodyGyro.CFrame = rotation
+    bodyGyro.Parent = part
+end
+
+local function cleanupAnchoredParts()
+    for _, part in ipairs(anchoredParts) do
+        if part then
+            if part:FindFirstChild("BodyPosition") then
+                part.BodyPosition:Destroy()
+            end
+            if part:FindFirstChild("BodyGyro") then
+                part.BodyGyro:Destroy()
+            end
+        end
+    end
+
+    for _, connection in ipairs(anchoredConnections) do
+        connection:Disconnect()
+    end
+    
+    anchoredParts = {}
+    anchoredConnections = {}
+end
+
+local function anchorGrabF()
+    while anchorGrabEnabled and task.wait() do
+        pcall(function()
+            local grabParts = workspace:FindFirstChild("GrabParts")
+            if not grabParts then return end
+
+            local grabPart = grabParts:FindFirstChild("GrabPart")
+            if not grabPart then return end
+
+            local weldConstraint = grabPart:FindFirstChild("WeldConstraint")
+            if not weldConstraint or not weldConstraint.Part1 then return end
+
+            local primaryPart = weldConstraint.Part1
+            if not primaryPart then return end
+            
+            -- Verifica se já está ancorado
+            local alreadyAnchored = false
+            for _, anchoredPart in ipairs(anchoredParts) do
+                if anchoredPart == primaryPart then
+                    alreadyAnchored = true
+                    break
+                end
+            end
+            
+            if not alreadyAnchored then
+                -- Remove movers antigos
+                for _, child in ipairs(primaryPart:GetChildren()) do
+                    if child:IsA("BodyPosition") or child:IsA("BodyGyro") then
+                        child:Destroy()
+                    end
+                end
+                
+                -- Cria novos movers
+                createBodyMovers(primaryPart, primaryPart.Position, primaryPart.CFrame)
+                table.insert(anchoredParts, primaryPart)
+                
+                OrionLib:MakeNotification({
+                    Name = "Objeto Ancorado",
+                    Content = "Objeto fixado com sucesso",
+                    Time = 2
+                })
+            end
+        end)
+    end
+end
+
+-- FUNÇÕES DO SISTEMA BLOBMAN DO SCRIPT FORNECIDO
+local function isDescendantOf(target, other)
+    local currentParent = target.Parent
+    while currentParent do
+        if currentParent == other then
+            return true
+        end
+        currentParent = currentParent.Parent
+    end
+    return false
+end
+
+local function DestroyT(toy)
+    local toy = toy or inv:FindFirstChildWhichIsA("Model")
+    rs.MenuToys.DestroyToy:FireServer(toy)
+end
+
+local function blobGrabPlayer(player, blobman)
+    if blobalter == 1 then
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local args = {
+                [1] = blobman:FindFirstChild("LeftDetector"),
+                [2] = player.Character:FindFirstChild("HumanoidRootPart"),
+                [3] = blobman:FindFirstChild("LeftDetector"):FindFirstChild("LeftWeld")
+            }
+            blobman:WaitForChild("BlobmanSeatAndOwnerScript"):WaitForChild("CreatureGrab"):FireServer(unpack(args))
+            blobalter = 2
+        end
+    else
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local args = {
+                [1] = blobman:FindFirstChild("RightDetector"),
+                [2] = player.Character:FindFirstChild("HumanoidRootPart"),
+                [3] = blobman:FindFirstChild("RightDetector"):FindFirstChild("RightWeld")
+            }
+            blobman:WaitForChild("BlobmanSeatAndOwnerScript"):WaitForChild("CreatureGrab"):FireServer(unpack(args))
+            blobalter = 1
+        end
+    end
+end
+
+local function reloadMissile(bool)
+    if bool then
+        if not reloadBombCoroutine then
+            reloadBombCoroutine = coroutine.create(function()
+                connectionBombReload = inv.ChildAdded:Connect(function(child)
+                    if child.Name == _G.ToyToLoad and child:WaitForChild("ThisToysNumber", 1) then
+                        if child.ThisToysNumber.Value == (inv.ToyNumber.Value - 1) then
+                            local connection2
+                            connection2 = inv.ChildRemoved:Connect(function(child2)
+                                if child2 == child then
+                                    connection2:Disconnect()
+                                end
+                            end)
+
+                            rs.GrabEvents.SetNetworkOwner:FireServer(child.Body, child.Body.CFrame)
+                            local waiting = child.Body:WaitForChild("PartOwner", 0.5)
+                            local connection = child.DescendantAdded:Connect(function(descendant)
+                                if descendant.Name == "PartOwner" then
+                                    if descendant.Value ~= plr.Name then
+                                        DestroyT(child)
+                                        connection:Disconnect()
+                                    end
+                                end
+                            end)
+                            game:GetService("Debris"):AddItem(connection, 60)
+                            if waiting and waiting.Value == plr.Name then
+                                for _, v in pairs(child:GetChildren()) do
+                                    if v:IsA("BasePart") then
+                                        v.CanCollide = false
+                                    end
+                                end
+                                child:SetPrimaryPartCFrame(CFrame.new(-72.9304581, -3.96906614, -265.543732))
+                                task.wait(0.2)
+                                for _, v in pairs(child:GetChildren()) do
+                                    if v:IsA("BasePart") then
+                                        v.Anchored = true
+                                    end
+                                end
+                                table.insert(bombList, child)
+                                child.AncestryChanged:Connect(function()
+                                    if not child.Parent then
+                                        for i, bomb in ipairs(bombList) do
+                                            if bomb == child then
+                                                table.remove(bombList, i)
+                                                break
+                                            end
+                                        end
+                                    end
+                                end)
+                                connection2:Disconnect()
+                            else
+                                DestroyT(child)
+                            end
+                        end
+                    end
+                end)
+
+                while true do
+                    if plr:FindFirstChild("CanSpawnToy") and plr.CanSpawnToy.Value and #bombList < _G.MaxMissiles and plr.Character:FindFirstChild("Head") then
+                        local spawnRemote = rs:WaitForChild("MenuToys"):WaitForChild("SpawnToyRemoteFunction")
+                        spawnRemote:InvokeServer(_G.ToyToLoad, plr.Character.Head.CFrame or plr.Character.HumanoidRootPart.CFrame, Vector3.new(0, 0, 0))
+                    end
+                    task.wait()
+                end
+            end)
+            coroutine.resume(reloadBombCoroutine)
+        end
+    else
+        if reloadBombCoroutine then
+            coroutine.close(reloadBombCoroutine)
+            reloadBombCoroutine = nil
+        end
+        if connectionBombReload then
+            connectionBombReload:Disconnect()
+        end
+    end
+end
+
+-- FUNÇÕES PARA SELEÇÃO DE PLAYERS
+local function getPlayers()
+    local players = {}
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if player ~= plr then
+            table.insert(players, player.Name)
+        end
+    end
+    return players
+end
+
+local function teleportToPlayer(player)
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    
+    local targetChar = player.Character
+    if not targetChar then return end
+    local targetHrp = targetChar:FindFirstChild("HumanoidRootPart")
+    if not targetHrp then return end
+    
+    hrp.CFrame = targetHrp.CFrame
+end
+
+-- FUNÇÕES PARA BLOBMAN TAB
+local function blobmanFarmF()
+    while blobmanAutoFarm and task.wait(blobmanFarmSpeed) do
+        spawnBlobmanF()
+        task.wait(0.5)
+        
+        if blobmanInstanceS then
+            -- Faz o Blobman seguir você
+            local char = plr.Character
+            if char and char:FindFirstChild("HumanoidRootPart") then
+                local humanoid = blobmanInstanceS:FindFirstChildOfClass("Humanoid")
+                if humanoid then
+                    humanoid:MoveTo(char.HumanoidRootPart.Position)
+                end
+            end
+            
+            task.wait(3)
+            destroyBlobmanF()
+        end
+    end
+end
+
+-- Configura inicialmente o sistema de teleporte
+teleportConnection = setupTeleportKeybind()
+
+-- Configura infinite jump
+setupInfiniteJump()
+
+-- Aba Antis
+local Antis = Window:MakeTab({
+    Name = "Antis",
+    Icon = "rbxassetid://13180179055",
+    PremiumOnly = false
+})
+
+-- Sistema Anti-Explode
+Antis:AddToggle({
+    Name = "AntiExplode",
+    Default = true,
+    Callback = function(Value)
+        antiExplodeT = Value
+        if Value then
+            antiExplodeF()
+            OrionLib:MakeNotification({
+                Name = "Anti-Explode Ativado!",
+                Content = "Proteção contra explosões ativada",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Anti-Explode Desativado!",
+                Content = "Proteção contra explosões desativada",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Sistema Anti-Grab
+Antis:AddToggle({
+    Name = "AntiGrab",
+    Default = true,
+    Callback = function(Value)
+        antiGrabT = Value
+        if Value then
+            coroutine.wrap(antiGrabF)()
+            OrionLib:MakeNotification({
+                Name = "Anti-Grab Ativado!",
+                Content = "Proteção contra grabs ativada",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Anti-Grab Desativado!",
+                Content = "Proteção contra grabs desativada",
+                Time = 3
+            })
+        end
+    end
+})
+
+Antis:AddToggle({
+    Name = "AntiGrab Anchor",
+    Default = true,
+    Callback = function(Value)
+        antiGrabAnchorT = Value
+    end
+})
+
+Antis:AddToggle({
+    Name = "AntiBlob",
+    Default = false,
+    Callback = function(Value)
+        antiBlobT = Value
+        if Value then
+            antiBlobF()
+            OrionLib:MakeNotification({
+                Name = "Anti-Blob Ativado!",
+                Content = "Proteção contra blobs ativada",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Anti-Blob Desativado!",
+                Content = "Proteção contra blobs desativada",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Botão Auto Gucci
+Antis:AddButton({
+    Name = "Auto Gucci ▶",
+    Callback = function()
+        autoGucciT = true
+        spawnBlobmanF()
+        task.wait(1.1)
+        if not sitJumpT then
+            coroutine.wrap(sitJumpF)()
+            sitJumpT = true
+        end
+        coroutine.wrap(ragdollLoopF)()
+        
+        OrionLib:MakeNotification({
+            Name = "Auto Gucci Ativado!",
+            Content = "Executando Auto Gucci por 6 segundos...",
+            Time = 3
+        })
+    end
+})
+
+-- Toggle para destruir automaticamente
+Antis:AddToggle({
+    Name = "Destroy Auto Gucci",
+    Default = true,
+    Callback = function(Value)
+        destroyAutoGucciT = Value
+    end
+})
+ 
+-- Aba Players (SEGUNDA ABA)
+local PlayersTab = Window:MakeTab({
+    Name = "Players",
+    Icon = "rbxassetid://11984980776",
+    PremiumOnly = false
+})
+
+-- Infinite Jump
+PlayersTab:AddToggle({
+    Name = "Infinite Jump",
+    Default = false,
+    Callback = function(Value)
+        infJumpT = Value
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "Infinite Jump Ativado!",
+                Content = "Pulo infinito ativado",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Infinite Jump Desativado!",
+                Content = "Pulo infinito desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- WalkSpeed
+PlayersTab:AddToggle({
+    Name = "WalkSpeed",
+    Default = false,
+    Callback = function(Value)
+        walkSpeedT = Value
+        updateWalkSpeedF()
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "WalkSpeed Ativado!",
+                Content = "WalkSpeed: " .. walkSpeedV,
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "WalkSpeed Desativado!",
+                Content = "WalkSpeed padrão",
+                Time = 3
+            })
+        end
+    end
+})
+
+PlayersTab:AddSlider({
+    Name = "WalkSpeed Value",
+    Min = 16,
+    Max = 250,
+    Default = 16,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "WalkSpeed",
+    Callback = function(Value)
+        walkSpeedV = Value
+        if walkSpeedT then
+            updateWalkSpeedF()
+        end
+    end
+})
+
+-- NoClip
+PlayersTab:AddToggle({
+    Name = "NoClip",
+    Default = false,
+    Callback = function(Value)
+        noClipT = Value
+        if Value then
+            updateNoClipF()
+            OrionLib:MakeNotification({
+                Name = "NoClip Ativado!",
+                Content = "NoClip ativado",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "NoClip Desativado!",
+                Content = "NoClip desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Jump Power
+PlayersTab:AddSlider({
+    Name = "Jump Power",
+    Min = 50,
+    Max = 550,
+    Default = 50,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "JumpPower",
+    Callback = function(Value)
+        jumpPowerV = Value
+        if infJumpT then
+            updateJumpPowerF()
+        end
+    end
+})
+
+-- Aba Linhas
+local LinesTab = Window:MakeTab({
+    Name = "Linhas",
+    Icon = "rbxassetid://124620632231839",
+    PremiumOnly = false
+})
+
+LinesTab:AddSection({
+    Name = "Força de Arremesso"
+})
+
+LinesTab:AddSlider({
+    Name = "Intensidade da Força",
+    Min = 100,
+    Max = 5000,
+    Default = lineStrength,
+    Color = Color3.fromRGB(255, 255, 255),
+    Increment = 10,
+    ValueName = "unidades",
+    Callback = function(Value)
+        lineStrength = Value
+        aplicarForcaArremesso()
+    end    
+})
+
+LinesTab:AddToggle({
+    Name = "Ativar Sistema de Força",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            ativarSistemaForca()
+        else
+            desativarSistemaForca()
+        end
+    end
+})
+
+LinesTab:AddSection({Name = "Controle de Altura de Slides"})
+
+LinesTab:AddSlider({
+    Name = "Altura dos Slides",
+    Min = 50,
+    Max = 500,
+    Default = Config.slideHeight,
+    Color = Color3.fromRGB(255, 255, 255),
+    Increment = 10,
+    ValueName = "pixels",
+    Callback = function(Value)
+        Config.slideHeight = Value
+        ajustarAlturaSlides()
+    end    
+})
+
+LinesTab:AddToggle({
+    Name = "Altura Automática",
+    Default = Config.autoHeight,
+    Callback = function(Value)
+        Config.autoHeight = Value
+        if Value then
+            ativarAlturaAutomatica()
+        end
+    end
+})
+
+LinesTab:AddToggle({
+    Name = "Modo Infinito",
+    Default = Config.infiniteMode,
+    Callback = function(Value)
+        Config.infiniteMode = Value
+        ajustarModoInfinito()
+    end
+})
+
+LinesTab:AddButton({
+    Name = "Aplicar Estilo Flexbox",
+    Callback = function()
+        aplicarEstiloFlexbox()
+    end
+})
+
+-- Seção de utilitários
+LinesTab:AddSection({Name = "Utilitários"})
+
+LinesTab:AddColorpicker({
+    Name = "Cor de Fundo",
+    Default = Color3.fromRGB(204, 204, 204), -- #ccc
+    Callback = function(Value)
+        aplicarCorFundoSlides(Value)
+    end  
+})
+
+LinesTab:AddButton({
+    Name = "Resetar Configurações",
+    Callback = function()
+        resetarConfiguracoes()
+    end
+})
+
+-- Aba Principal
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://124620632231839",
+    PremiumOnly = false
+})
+
+-- Seletor de keybind para o teleporte
+MainTab:AddDropdown({
+    Name = "Keybind de Teleporte",
+    Default = "Z",
+    Options = {"Z", "Q", "R", "F", "G", "T"},
+    Callback = function(Value)
+        teleportKeybind = Enum.KeyCode[Value]
+        OrionLib:MakeNotification({
+            Name = "Keybind Alterada",
+            Content = "Tecla de teleporte alterada para: " .. Value,
+            Time = 3
+        })
+    end
+})
+
+-- Botão de teleporte normal (alternativa)
+MainTab:AddButton({
+    Name = "Teleporte (Clique Único)",
+    Callback = function()
+        local char = plr.Character
+        if not char then return end
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+        
+        local mouse = plr:GetMouse()
+        if mouse.Target then 
+            hrp.CFrame = CFrame.new(mouse.Hit.X, mouse.Hit.Y + 5, mouse.Hit.Z)
+        end
+    end
+})
+
+--Script do bliz
+MainTab:AddButton({
+    Name = "Script do Bliz_T",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/BlizTBr/scripts/refs/heads/main/FTAP.lua"))()
+    end
+})
+
+MainTab:AddButton({
+    Name = "Fechar UI",
+    Callback = function()
+        OrionLib:Destroy()
+    end
+})
+
+MainTab:AddButton({
+    Name = "Mais Inf",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Mais Inf",
+            Content = "Desative Todas as opções para evitar bugs"
+        })
+    end
+})
+
+-- Aba de Inspeção
+local InspectTab = Window:MakeTab({
+    Name = "Inspect/Bring",
+    Icon = "rbxassetid://6523858394",
+    PremiumOnly = false
+})
+
+-- Sistema de Inspeção com Toggle
+InspectTab:AddToggle({
+    Name = "Modo Inspeção",
+    Default = false,
+    Callback = function(Value)
+        inspectT = Value
+        if Value then
+            inspectF()
+            OrionLib:MakeNotification({
+                Name = "Inspeção Ativada!",
+                Content = "Aponte para objetos para inspecionar",
+                Time = 3
+            })
+        else
+            clearInspection()
+            OrionLib:MakeNotification({
+                Name = "Inspeção Desativada!",
+                Content = "Modo de inspeção desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+InspectTab:AddToggle({
+    Name = "Mostrar Info",
+    Default = false,
+    Callback = function(Value)
+        inspectInfoT = Value
+        if Value then
+            inspectInfoF()
+        else
+            if billboardInstance then
+                billboardInstance:Destroy()
+                billboardInstance = nil
+            end
+            inspectInfoOnT = false
+        end
+    end
+})
+
+InspectTab:AddButton({
+    Name = "Trazer Objeto",
+    Callback = function()
+        inspectBringF()
+        OrionLib:MakeNotification({
+            Name = "Objeto Trazido",
+            Content = "Objeto inspecionado foi trazido para sua posição",
+            Time = 3
+        })
+    end
+})
+
+-- Keybind para inspeção com toggle
+InspectTab:AddBind({
+    Name = "Keybind Inspeção (Toggle)",
+    Default = Enum.KeyCode.Y,
+    Hold = false,
+    Callback = function()
+        inspectT = not inspectT
+        
+        if inspectT then
+            inspectF()
+            OrionLib:MakeNotification({
+                Name = "Inspeção Ativada!",
+                Content = "Modo inspeção ativado - Aponte para objetos",
+                Time = 3
+            })
+        else
+            clearInspection()
+            OrionLib:MakeNotification({
+                Name = "Inspeção Desativada!",
+                Content = "Modo inspeção desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Keybind para limpar inspeção
+InspectTab:AddBind({
+    Name = "Limpar Inspeção",
+    Default = Enum.KeyCode.U,
+    Hold = false,
+    Callback = function()
+        clearInspection()
+        OrionLib:MakeNotification({
+            Name = "Inspeção Limpa",
+            Content = "Objeto inspecionado foi desmarcado",
+            Time = 2
+        })
+    end
+})
+
+-- NOVA SEÇÃO: SELEÇÃO DE PLAYERS
+InspectTab:AddLabel("Seleção de Players")
+
+-- Dropdown para selecionar players
+local playerDropdown = InspectTab:AddDropdown({
+    Name = "Selecionar Player",
+    Default = "Nenhum",
+    Options = {"Nenhum"},
+    Callback = function(Value)
+        if Value == "Nenhum" then
+            selectedPlayer = nil
+        else
+            selectedPlayer = game.Players[Value]
+        end
+    end
+})
+
+-- Atualizar lista de players
+local function updatePlayerList()
+    local players = getPlayers()
+    table.insert(players, 1, "Nenhum")
+    playerDropdown:Refresh(players, true)
+end
+
+-- Botão para atualizar lista de players
+InspectTab:AddButton({
+    Name = "Atualizar Lista de Players",
+    Callback = function()
+        updatePlayerList()
+        OrionLib:MakeNotification({
+            Name = "Lista Atualizada",
+            Content = "Lista de players atualizada",
+            Time = 2
+        })
+    end
+})
+
+-- Botão para teleportar para o player selecionado
+InspectTab:AddButton({
+    Name = "Teleportar para Player",
+    Callback = function()
+        if selectedPlayer then
+            teleportToPlayer(selectedPlayer)
+            OrionLib:MakeNotification({
+                Name = "Teleportado",
+                Content = "Teleportado para " .. selectedPlayer.Name,
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Erro",
+                Content = "Nenhum player selecionado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Toggle para loop de teleporte
+InspectTab:AddToggle({
+    Name = "Loop Teleport para Player",
+    Default = false,
+    Callback = function(Value)
+        teleportLoop = Value
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "Loop Teleport Ativado",
+                Content = "Teleportando para " .. (selectedPlayer and selectedPlayer.Name or "Nenhum"),
+                Time = 3
+            })
+            
+            -- Inicia o loop de teleporte
+            while teleportLoop and selectedPlayer do
+                teleportToPlayer(selectedPlayer)
+                task.wait(0.1)
+            end
+        else
+            OrionLib:MakeNotification({
+                Name = "Loop Teleport Desativado",
+                Content = "Loop de teleporte desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Botão para trazer player usando inspectBringF
+InspectTab:AddButton({
+    Name = "Trazer Player (InspectBring)",
+    Callback = function()
+        if selectedPlayer then
+            -- Simula a inspeção do player para usar a função inspectBringF
+            local originalInspectT = inspectT
+            local originalCurrentInspectS = currentInspectS
+            local originalCurrentInspectedAdorneeS = currentInspectedAdorneeS
+            
+            inspectT = true
+            currentInspectS = 1
+            currentInspectedAdorneeS = selectedPlayer.Character
+            
+            -- Chama a função inspectBringF
+            inspectBringF()
+            
+            -- Restaura os valores originais
+            inspectT = originalInspectT
+            currentInspectS = originalCurrentInspectS
+            currentInspectedAdorneeS = originalCurrentInspectedAdorneeS
+            
+            OrionLib:MakeNotification({
+                Name = "Player Trazido",
+                Content = selectedPlayer.Name .. " foi trazido para você usando InspectBring",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Erro",
+                Content = "Nenhum player selecionado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Toggle para loop de trazer player usando inspectBringF
+InspectTab:AddToggle({
+    Name = "Loop Trazer Player (InspectBring)",
+    Default = false,
+    Callback = function(Value)
+        bringLoop = Value
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "Loop Trazer Ativado",
+                Content = "Trazendo " .. (selectedPlayer and selectedPlayer.Name or "Nenhum") .. " usando InspectBring",
+                Time = 3
+            })
+            
+            -- Inicia o loop de trazer player
+            while bringLoop and selectedPlayer do
+                -- Simula a inspeção do player para usar a função inspectBringF
+                local originalInspectT = inspectT
+                local originalCurrentInspectS = currentInspectS
+                local originalCurrentInspectedAdorneeS = currentInspectedAdorneeS
+                
+                inspectT = true
+                currentInspectS = 1
+                currentInspectedAdorneeS = selectedPlayer.Character
+                
+                -- Chama a função inspectBringF
+                inspectBringF()
+                
+                -- Restaura os valores originais
+                inspectT = originalInspectT
+                currentInspectS = originalCurrentInspectS
+                currentInspectedAdorneeS = originalCurrentInspectedAdorneeS
+                
+                task.wait(0.1)
+            end
+        else
+            OrionLib:MakeNotification({
+                Name = "Loop Trazer Desativado",
+                Content = "Loop de trazer desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- NOVA ABA: ANCHOR GRAB
+local AnchorTab = Window:MakeTab({
+    Name = "Anchor Grab",
+    Icon = "rbxassetid://10709782497",
+    PremiumOnly = false
+})
+
+AnchorTab:AddLabel("Sistema Anchor Grab - Fixa objetos ao agarrar")
+
+-- Toggle para Anchor Grab
+AnchorTab:AddToggle({
+    Name = "Anchor Grab",
+    Default = false,
+    Callback = function(Value)
+        anchorGrabEnabled = Value
+        if Value then
+            -- Inicia a corrotina do Anchor Grab
+            coroutine.wrap(anchorGrabF)()
+            OrionLib:MakeNotification({
+                Name = "Anchor Grab Ativado",
+                Content = "Objetos serão fixados ao agarrar",
+                Time = 3
+            })
+        else
+            -- Limpa objetos ancorados
+            cleanupAnchoredParts()
+            OrionLib:MakeNotification({
+                Name = "Anchor Grab Desativado",
+                Content = "Sistema de fixação desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Keybind para Anchor Grab
+AnchorTab:AddBind({
+    Name = "Keybind Anchor Grab (Toggle)",
+    Default = Enum.KeyCode.K,
+    Hold = false,
+    Callback = function()
+        anchorGrabEnabled = not anchorGrabEnabled
+        if anchorGrabEnabled then
+            -- Inicia a corrotina do Anchor Grab
+            coroutine.wrap(anchorGrabF)()
+            OrionLib:MakeNotification({
+                Name = "Anchor Grab Ativado",
+                Content = "Tecla K - Objetos serão fixados ao agarrar",
+                Time = 3
+            })
+        else
+            -- Limpa objetos ancorados
+            cleanupAnchoredParts()
+            OrionLib:MakeNotification({
+                Name = "Anchor Grab Desativado",
+                Content = "Tecla K - Sistema de fixação desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Botão para limpar objetos ancorados
+AnchorTab:AddButton({
+    Name = "Limpar Objetos Ancorados",
+    Callback = function()
+        cleanupAnchoredParts()
+        OrionLib:MakeNotification({
+            Name = "Objetos Limpos",
+            Content = "Todos os objetos ancorados foram liberados",
+            Time = 3
+        })
+    end
+})
+
+AnchorTab:AddLabel("Instruções:")
+AnchorTab:AddLabel("1. Ative o Anchor Grab")
+AnchorTab:AddLabel("2. Agarre um objeto para fixá-lo")
+AnchorTab:AddLabel("3. Use a tecla K para toggle rápido")
+AnchorTab:AddLabel("4. Use o botão para limpar todos")
+
+-- NOVA ABA: BLOBMAN (COM O CÓDIGO DO SCRIPT FORNECIDO)
+local BlobmanTab = Window:MakeTab({
+    Name = "Blobman",
+    Icon = "rbxassetid://129000779735197",
+    PremiumOnly = false
+})
+
+BlobmanTab:AddLabel("Sistema Blobman Avançado")
+
+-- Toggle para Destroy Server
+BlobmanTab:AddToggle({
+    Name = "Destroy server",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            -- Verifica se está montado em um Blobman
+            local foundBlobman = false
+            for i, v in pairs(workspace:GetDescendants()) do
+                if v.Name == "CreatureBlobman" then
+                    if v:FindFirstChild("VehicleSeat") and v.VehicleSeat:FindFirstChild("SeatWeld") and 
+                       isDescendantOf(v.VehicleSeat.SeatWeld.Part1, plr.Character) then
+                        blobman = v
+                        foundBlobman = true
+                        break
+                    end
+                end
+            end
+
+            if not foundBlobman then
+                OrionLib:MakeNotification({
+                    Name = "Erro",
+                    Content = "Você deve estar montado em um Blobman para ativar esta função!",
+                    Time = 5,
+                    Image = 4483362458,
+                })
+                return
+            end
+
+            -- Inicia a corrotina do Destroy Server
+            blobmanCoroutine = coroutine.create(function()
+                while true do
+                    pcall(function()
+                        for i, v in pairs(game.Players:GetChildren()) do
+                            if blobman and v ~= plr then
+                                blobGrabPlayer(v, blobman)
+                                task.wait(_G.BlobmanDelay)
+                            end
+                        end
+                    end)
+                    task.wait(0.02)
+                end
+            end)
+            coroutine.resume(blobmanCoroutine)
+            
+            OrionLib:MakeNotification({
+                Name = "Destroy Server Ativado",
+                Content = "Sistema de destruição ativado",
+                Time = 3
+            })
+        else
+            if blobmanCoroutine then
+                coroutine.close(blobmanCoroutine)
+                blobmanCoroutine = nil
+                blobman = nil
+            end
+            OrionLib:MakeNotification({
+                Name = "Destroy Server Desativado",
+                Content = "Sistema de destruição desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Slider para velocidade do Destroy Server
+BlobmanTab:AddSlider({
+    Name = "Destroy server Speed",
+    Min = 0.05,
+    Max = 1,
+    Default = 0.5,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 0.01,
+    ValueName = "segundos",
+    Callback = function(Value)
+        _G.BlobmanDelay = Value
+    end
+})
+
+-- Toggle para recarregar mísseis
+BlobmanTab:AddToggle({
+    Name = "Recarregar Mísseis",
+    Default = false,
+    Callback = function(Value)
+        reloadMissile(Value)
+        if Value then
+            OrionLib:MakeNotification({
+                Name = "Recarga Ativada",
+                Content = "Sistema de recarga de mísseis ativado",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Recarga Desativada",
+                Content = "Sistema de recarga de mísseis desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Seletor de tipo de míssil
+BlobmanTab:AddDropdown({
+    Name = "Tipo de Míssil",
+    Default = "BombMissile",
+    Options = {"BombMissile", "Bomb", "BombNuclear"},
+    Callback = function(Value)
+        _G.ToyToLoad = Value
+        OrionLib:MakeNotification({
+            Name = "Míssil Selecionado",
+            Content = "Míssil definido para: " .. Value,
+            Time = 3
+        })
+    end
+})
+
+-- Slider para quantidade máxima de mísseis
+BlobmanTab:AddSlider({
+    Name = "Quantidade Máxima",
+    Min = 1,
+    Max = 20,
+    Default = 9,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "mísseis",
+    Callback = function(Value)
+        _G.MaxMissiles = Value
+    end
+})
+
+-- Botão para spawnar Blobman
+BlobmanTab:AddButton({
+    Name = "Spawnar Blobman",
+    Callback = function()
+        spawnBlobmanF()
+        if blobmanInstanceS then
+            OrionLib:MakeNotification({
+                Name = "Blobman Spawnado",
+                Content = "Blobman foi spawnado com sucesso",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Erro",
+                Content = "Falha ao spawnar Blobman",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Botão para destruir Blobman
+BlobmanTab:AddButton({
+    Name = "Destruir Blobman",
+    Callback = function()
+        destroyBlobmanF()
+        OrionLib:MakeNotification({
+            Name = "Blobman Destruído",
+            Content = "Blobman foi destruído com sucesso",
+            Time = 3
+        })
+    end
+})
+
+-- Botão para Auto Gucci
+BlobmanTab:AddButton({
+    Name = "Auto Gucci ▶",
+    Callback = function()
+        autoGucciT = true
+        spawnBlobmanF()
+        task.wait(1.1)
+        if not sitJumpT then
+            coroutine.wrap(sitJumpF)()
+            sitJumpT = true
+        end
+        coroutine.wrap(ragdollLoopF)()
+        
+        OrionLib:MakeNotification({
+            Name = "Auto Gucci Ativado!",
+            Content = "Executando Auto Gucci por 6 segundos...",
+            Time = 3
+        })
+    end
+})
+
+-- premium
+local PremiumTab = Window:MakeTab({
+    Name = "Premium",
+    Icon = "rbxassetid://11322089611",
+    PremiumOnly = false
+})
+
+PremiumTab:AddButton({
+    Name = "Open Premium",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Premium",
+            Content = "Você deve clicar em get premium para obter",
+            Time = 3
+        })          
+    end  -- FALTANDO ESTE 'end'
+})  -- E ESTE '}' ESTAVA NO LUGAR ERRADO
+
+PremiumTab:AddButton({
+    Name = "Ativar Premium",
+    Callback = function()
+        if chavesValidas[chaveInserida] then
+            premiumAtivo = true
+            OrionLib:MakeNotification({
+                Name = "Premium Ativado!",
+                Content = "Recursos premium desbloqueados!",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+            loadPremiumFeatures()
+        else
+            OrionLib:MakeNotification({
+                Name = "Chave Inválida",
+                Content = "Verifique sua chave e tente novamente.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end
+})
+
+-- Aba de Temas
+local CreditsTab = Window:MakeTab({
+    Name = "Creditos",
+    Icon = "rbxassetid://10910211661",
+    PremiumOnly = false
+})
+
+CreditsTab:AddLabel("Criador: Pato_Soud (l3vitomol2314)")
+CreditsTab:AddLabel("Testes: Caius (pepoooooooii5)")
+CreditsTab:AddLabel("Hub: Bliz_T (Blizz_T)")
+--CreditsTab:AddLabel("gdodf")
+--CreditsTab:AddLabel("fsdfs")
+
+-- Atualiza a lista de players inicialmente
+updatePlayerList()
+
+local configSalva = OrionLib:GetConfig()
+if configSalva and configSalva.PremiumAtivo then
+    premiumAtivo = true
+    chaveInserida = configSalva.ChaveAtivacao or ""
+    
+    OrionLib:MakeNotification({
+        Name = "Bem-vindo de volta!",
+        Content = "Seu premium está ativo!",
+        Time = 3
+    })
+end
+
+-- Inicializar
+OrionLib:Init()
