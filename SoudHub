@@ -1,5 +1,5 @@
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/BlizTBr/scripts/refs/heads/main/Orion%20X"))()
-
+--local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 -- Tema roxo personalizado
 OrionLib.Themes.Purple_T = {
     Main     = Color3.fromRGB(10, 0, 15),
@@ -992,6 +992,30 @@ MainTab:AddButton({
         end
     end
 })
+--Script do bliz
+MainTab:AddButton({
+    Name = "Script do Bliz_T",  --virgula coco
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/BlizTBr/scripts/refs/heads/main/FTAP.lua"))()
+    end
+})
+
+MainTab:AddButton({
+    Name = "Fechar UI",
+    Callback = function()
+        OrionLib:Destroy()
+    end
+})
+
+MainTab:AddButton({
+    Name = "Mais Inf",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Mais Inf",
+            Content = "Desative Todas as opções para evitar bugs"
+        })
+    end
+})
 
 -- Aba de Inspeção
 local InspectTab = Window:MakeTab({
@@ -1261,10 +1285,28 @@ InspectTab:AddToggle({
     end
 })
 
+-- premium
+local PremiumTab = Window:MakeTab({
+    Name = "Premium",
+    Icon = "rbxassetid://11322089611",
+    PremiumOnly = false
+})
+
+PremiumTab:AddButton({
+    Name = "Open Premium",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Premium",
+            Content = "Você não é Premium",
+            Time = 3
+        })
+    end
+})
+
 -- NOVA ABA: BLOBMAN
 local BlobmanTab = Window:MakeTab({
     Name = "Blobman",
-    Icon = "rbxassetid://11322089611",
+    Icon = "rbxassetid://129000779735197",
     PremiumOnly = false
 })
 
