@@ -1,3 +1,4 @@
 1
 loadstring(game:HttpGet("https://raw.githubusercontent.com/SoudHub/SoudHub-/refs/heads/main/DeadprincesHub"))()
 2
+loadstring(game:HttpGet("https://raw.githubusercontent.com/SoudHub/SoudHub-/refs/heads/main/SoudHub"))()
