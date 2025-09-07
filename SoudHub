@@ -24,15 +24,17 @@ local chaveInserida = ""
 
 -- Cria janela principal
 local Window = OrionLib:MakeWindow({
-    Name = "Soud Hub PC",
+    Name = "NiggaHub PC",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "NiggaHubConfig",
     IntroEnabled = true,
-    IntroText = "Nigger Loaded"
+    IntroText = "Blus after molestation"
 })
 
--- Variáveis necessárias
+-- Variáveis globais
+local Players = game:GetService("Players")
+local selectedPlayer = nil
 local plr = game.Players.LocalPlayer
 local rs = game:GetService("ReplicatedStorage")
 local uis = game:GetService("UserInputService")
@@ -40,6 +42,53 @@ local cam = workspace.CurrentCamera
 local mouse = plr:GetMouse()
 local inv = workspace:WaitForChild(plr.Name.."SpawnedInToys")
 local currentHouseS = 0
+
+-- 2. FUNÇÃO GETPLAYERLIST (COLOQUE AQUI!)
+function GetPlayerList()
+    local playerList = {"Nenhum"}
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= Players.LocalPlayer then
+            table.insert(playerList, player.Name)
+        end
+    end
+    return playerList
+end
+
+-- Função para teleportar até o jogador
+function TeleportToPlayer(targetPlayer)
+    if not targetPlayer or not targetPlayer.Character then 
+        OrionLib:MakeNotification({
+            Name = "Erro",
+            Content = "Jogador não encontrado ou sem personagem!",
+            Time = 3
+        })
+        return false
+    end
+    
+    local targetHRP = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+    local localChar = plr.Character
+    local localHRP = localChar and localChar:FindFirstChild("HumanoidRootPart")
+    
+    if not targetHRP or not localHRP then
+        OrionLib:MakeNotification({
+            Name = "Erro",
+            Content = "Não foi possível encontrar as partes necessárias!",
+            Time = 3
+        })
+        return false
+    end
+    
+    -- Teleporta para próximo do jogador :cite[5]:cite[8]
+    localHRP.CFrame = targetHRP.CFrame * CFrame.new(0, 0, 5)
+    
+    OrionLib:MakeNotification({
+        Name = "Teleportado!",
+        Content = "Teleportado para: " .. targetPlayer.Name,
+        Time = 3
+    })
+    
+    return true
+end
 
 -- Variáveis do Auto Gucci
 local autoGucciT = false
@@ -78,6 +127,19 @@ local jumpPowerV = 50
 local infJumpD = false
 local noClipT = false
 local returnPosS = CFrame.new()
+
+--lag
+-- Variáveis para Lag
+local lagT = false
+local pingT = false
+local shurikenLagServerT = false
+local linesV = 10
+local packetsV = 100
+local Whitelist = {
+    "pato_soud",
+    "Blizz_T",
+    "Mohanaporto"
+} -- Lista de jogadores imunes
 
 -- Variáveis para Player Selection
 local selectedPlayer = nil
@@ -145,11 +207,7 @@ local connectionBombReload = nil
 
 -- Funções para Linhas Tab (Sistema de Força Real)
 local function aplicarForcaArremesso()
-    OrionLib:MakeNotification({
-        Name = "Força de Arremesso Ajustada",
-        Content = "Força definida para: " .. lineStrength,
-        Time = 3
-    })
+   
 end
 
 local function setupLineStrength()
@@ -181,11 +239,7 @@ end
 local function ativarSistemaForca()
     lineForceEnabled = true
     setupLineStrength()
-    OrionLib:MakeNotification({
-        Name = "Sistema de Força Ativado",
-        Content = "Sistema de força de arremesso ativado",
-        Time = 3
-    })
+   
 end
 
 local function desativarSistemaForca()
@@ -194,20 +248,12 @@ local function desativarSistemaForca()
         lineStrengthConnection:Disconnect()
         lineStrengthConnection = nil
     end
-    OrionLib:MakeNotification({
-        Name = "Sistema de Força Desativado",
-        Content = "Sistema de força de arremesso desativado",
-        Time = 3
-    })
+    
 end
 
 -- Funções placeholders para as outras opções de Linhas
 local function ajustarAlturaSlides()
-    OrionLib:MakeNotification({
-        Name = "Altura Ajustada",
-        Content = "Altura dos slides ajustada para: " .. Config.slideHeight,
-        Time = 3
-    })
+   
 end
 
 local function ativarAlturaAutomatica()
@@ -915,12 +961,7 @@ local function anchorGrabF()
                 -- Cria novos movers
                 createBodyMovers(primaryPart, primaryPart.Position, primaryPart.CFrame)
                 table.insert(anchoredParts, primaryPart)
-                
-                OrionLib:MakeNotification({
-                    Name = "Objeto Ancorado",
-                    Content = "Objeto fixado com sucesso",
-                    Time = 2
-                })
+
             end
         end)
     end
@@ -1088,6 +1129,157 @@ local function blobmanFarmF()
             
             task.wait(3)
             destroyBlobmanF()
+        end
+    end
+end
+
+--Lags
+function lagF()
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local hum = char:WaitForChild("Humanoid")
+    
+    for i, e in ipairs(game.Players:GetPlayers()) do
+        if table.find(Whitelist, e.Name) then
+            return
+        end
+    end
+    
+    while task.wait(1) and lagT do
+        for a = 0, linesV do
+            for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+                if player.Character and player.Character:FindFirstChild("Torso") then
+                    rs.GrabEvents.CreateGrabLine:FireServer(player.Character.Torso, player.Character.Torso.CFrame)
+                end
+            end
+        end
+    end
+end
+
+function pingF()
+    for i, e in ipairs(game.Players:GetPlayers()) do
+        if table.find(Whitelist, e.Name) then
+            return
+        end
+    end
+    
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local hum = char:WaitForChild("Humanoid")
+    
+    while task.wait() and pingT do
+        rs.GrabEvents.ExtendGrabLine:FireServer(string.rep("Balls Balls Balls Balls", packetsV))
+    end
+end
+
+function shurikenLagServerF()
+    for i, e in ipairs(game.Players:GetPlayers()) do
+        if table.find(Whitelist, e.Name) then
+            return
+        end
+    end
+    
+    local char = plr.Character
+    if not char then return end
+    local hrp = char:WaitForChild("HumanoidRootPart")
+    local hum = char:WaitForChild("Humanoid")
+    
+    if shurikenLagServerT then
+        local ToyFolder
+        for _, v in pairs(workspace.Plots:GetChildren()) do
+            for _, b in pairs(v.PlotSign.ThisPlotsOwners:GetChildren()) do
+                if b.Value == plr.Name then
+                    ToyFolder = workspace.PlotItems[v.Name]
+                end
+            end
+        end
+        
+        if not ToyFolder then return end
+        
+        local decoys = {}
+        local shurikens = {}
+
+        for _, obj in pairs(ToyFolder:GetChildren()) do
+            if obj:IsA("Model") then
+                if obj.Name == "NpcRobloxianMascot" then
+                    table.insert(decoys, obj)
+                elseif obj.Name == "NinjaShuriken" then
+                    table.insert(shurikens, obj)
+                end
+            end
+        end
+
+        local maxshurikensperdecoy = 8
+
+        for decoyindex, decoy in ipairs(decoys) do
+            local decoyHRP = decoy:FindFirstChild("HumanoidRootPart")
+            if decoyHRP and shurikenLagServerT then
+                local startindex = (decoyindex - 1) * maxshurikensperdecoy + 1
+                local endindex = math.min(startindex + maxshurikensperdecoy - 1, #shurikens)
+                
+                for shurikenindex = startindex, endindex do
+                    local shuriken = shurikens[shurikenindex]
+                    if not shuriken or not shurikenLagServerT then
+                        break
+                    end
+                    
+                    local StickyPart = shuriken:FindFirstChild("StickyPart")
+                    if StickyPart then
+                        StickyPart.CanTouch = true
+                        for _, part in pairs(decoy:GetDescendants()) do
+                            if part:IsA("BasePart") then
+                                part.CanCollide = false
+                            end
+                        end
+                        
+                        local BodyPosition = Instance.new("BodyPosition")
+                        BodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+                        BodyPosition.P = 10000
+                        BodyPosition.D = 500
+                        BodyPosition.Parent = StickyPart
+                        
+                        for _, part in pairs(shuriken:GetDescendants()) do
+                            if part:IsA("BasePart") then
+                                part.CanCollide = false
+                            end
+                        end
+                        
+                        for _, child in pairs(StickyPart:GetChildren()) do
+                            if child.Name == "TouchInterest" then
+                                child:Destroy()
+                            end
+                        end
+                        
+                        task.defer(function()
+                            repeat
+                                if StickyPart and StickyPart.Parent and decoyHRP and decoyHRP.Parent then
+                                    StickyPart.AssemblyAngularVelocity = Vector3.new(
+                                        math.random(-100, 100) * 50,
+                                        math.random(-100, 100) * 50,
+                                        math.random(-100, 100) * 50
+                                    )
+                                    BodyPosition.Position = Vector3.new(
+                                        decoyHRP.Position.X,
+                                        decoyHRP.Position.Y - 4,
+                                        decoyHRP.Position.Z
+                                    )
+                                    task.wait(0.0001)
+                                    BodyPosition.Position = Vector3.new(
+                                        decoyHRP.Position.X,
+                                        decoyHRP.Position.Y + 3,
+                                        decoyHRP.Position.Z
+                                    )
+                                    task.wait(0.0001)
+                                end
+                            until not shurikenLagServerT or not shuriken.Parent or not decoy.Parent
+                        end)
+                    end
+                    task.wait()
+                end
+            end
+            task.wait()
         end
     end
 end
@@ -1268,7 +1460,7 @@ PlayersTab:AddSlider({
     Min = 16,
     Max = 250,
     Default = 16,
-    Color = Color3.fromRGB(255,255,255),
+    Color = Color3.fromRGB(20, 35, 248, 1),
     Increment = 1,
     ValueName = "WalkSpeed",
     Callback = function(Value)
@@ -1308,7 +1500,7 @@ PlayersTab:AddSlider({
     Min = 50,
     Max = 550,
     Default = 50,
-    Color = Color3.fromRGB(255,255,255),
+    Color = Color3.fromRGB(20, 35, 248, 1),
     Increment = 1,
     ValueName = "JumpPower",
     Callback = function(Value)
@@ -1322,7 +1514,7 @@ PlayersTab:AddSlider({
 -- Aba Linhas
 local LinesTab = Window:MakeTab({
     Name = "Linhas",
-    Icon = "rbxassetid://124620632231839",
+    Icon = "rbxassetid://97889814027474",
     PremiumOnly = false
 })
 
@@ -1335,7 +1527,7 @@ LinesTab:AddSlider({
     Min = 100,
     Max = 5000,
     Default = lineStrength,
-    Color = Color3.fromRGB(255, 255, 255),
+    Color = Color3.fromRGB(20, 35, 248, 1),
     Increment = 10,
     ValueName = "unidades",
     Callback = function(Value)
@@ -1363,7 +1555,7 @@ LinesTab:AddSlider({
     Min = 50,
     Max = 500,
     Default = Config.slideHeight,
-    Color = Color3.fromRGB(255, 255, 255),
+    Color = Color3.fromRGB(20, 35, 248, 1),
     Increment = 10,
     ValueName = "pixels",
     Callback = function(Value)
@@ -1435,7 +1627,7 @@ MainTab:AddDropdown({
             Name = "Keybind Alterada",
             Content = "Tecla de teleporte alterada para: " .. Value,
             Time = 3
-        })
+            })
     end
 })
 
@@ -1476,6 +1668,153 @@ MainTab:AddButton({
         OrionLib:MakeNotification({
             Name = "Mais Inf",
             Content = "Desative Todas as opções para evitar bugs"
+        })
+    end
+})
+
+MainTab:AddSection({
+    Name = "Controles de Lag"
+})
+
+MainTab:AddToggle({
+    Name = "Ativar Lag",
+    Default = false,
+    Callback = function(Value)
+        lagT = Value
+        if Value then
+            coroutine.wrap(lagF)()
+            OrionLib:MakeNotification({
+                Name = "Lag Ativado",
+                Content = "Sistema de lag ativado",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Lag Desativado",
+                Content = "Sistema de lag desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+MainTab:AddSlider({
+    Name = "Quantidade de Linhas",
+    Min = 1,
+    Max = 50,
+    Default = 10,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "linhas",
+    Callback = function(Value)
+        linesV = Value
+    end
+})
+
+MainTab:AddToggle({
+    Name = "Ativar Ping",
+    Default = false,
+    Callback = function(Value)
+        pingT = Value
+        if Value then
+            coroutine.wrap(pingF)()
+            OrionLib:MakeNotification({
+                Name = "Ping Ativado",
+                Content = "Sistema de ping ativado",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Ping Desativado",
+                Content = "Sistema de ping desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+MainTab:AddSlider({
+    Name = "Quantidade de Pacotes",
+    Min = 10,
+    Max = 500,
+    Default = 100,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 10,
+    ValueName = "pacotes",
+    Callback = function(Value)
+        packetsV = Value
+    end
+})
+
+MainTab:AddToggle({
+    Name = "Shuriken Lag Server",
+    Default = false,
+    Callback = function(Value)
+        shurikenLagServerT = Value
+        if Value then
+            coroutine.wrap(shurikenLagServerF)()
+            OrionLib:MakeNotification({
+                Name = "Shuriken Lag Ativado",
+                Content = "Sistema de shuriken lag ativado",
+                Time = 3
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Shuriken Lag Desativado",
+                Content = "Sistema de shuriken lag desativado",
+                Time = 3
+            })
+        end
+    end
+})
+
+MainTab:AddSection({
+    Name = "Whitelist"
+})
+
+MainTab:AddDropdown({
+    Name = "Adicionar à Whitelist",
+    Default = "Nenhum",
+    Options = GetPlayerList(),
+    Callback = function(Value)
+        if Value ~= "Nenhum" and not table.find(Whitelist, Value) then
+            table.insert(Whitelist, Value)
+            OrionLib:MakeNotification({
+                Name = "Adicionado à Whitelist",
+                Content = Value .. " foi adicionado à whitelist",
+                Time = 3
+            })
+        end
+    end
+})
+
+MainTab:AddButton({
+    Name = "Ver Whitelist",
+    Callback = function()
+        local lista = "Whitelist: "
+        for i, nome in ipairs(Whitelist) do
+            lista = lista .. nome
+            if i < #Whitelist then
+                lista = lista .. ", "
+            end
+        end
+        
+        OrionLib:MakeNotification({
+            Name = "Lista Whitelist",
+            Content = lista,
+            Time = 5
+        })
+    end
+})
+
+MainTab:AddButton({
+    Name = "Limpar Whitelist",
+    Callback = function()
+        Whitelist = {}
+        OrionLib:MakeNotification({
+            Name = "Whitelist Limpa",
+            Content = "Todos os jogadores foram removidos da whitelist",
+            Time = 3
         })
     end
 })
@@ -1533,8 +1872,8 @@ InspectTab:AddButton({
     Callback = function()
         inspectBringF()
         OrionLib:MakeNotification({
-            Name = "Objeto Trazido",
-            Content = "Objeto inspecionado foi trazido para sua posição",
+            Name = "Objeto/Player Trazido",
+            Content = "Objeto/Player inspecionado foi trazido para sua posição",
             Time = 3
         })
     end
@@ -1641,7 +1980,7 @@ InspectTab:AddButton({
 
 -- Toggle para loop de teleporte
 InspectTab:AddToggle({
-    Name = "Loop Teleport para Player",
+    Name = "Loop Teleport",
     Default = false,
     Callback = function(Value)
         teleportLoop = Value
@@ -1669,7 +2008,7 @@ InspectTab:AddToggle({
 
 -- Botão para trazer player usando inspectBringF
 InspectTab:AddButton({
-    Name = "Trazer Player (InspectBring)",
+    Name = "Trazer Player",
     Callback = function()
         if selectedPlayer then
             -- Simula a inspeção do player para usar a função inspectBringF
@@ -1838,6 +2177,97 @@ local BlobmanTab = Window:MakeTab({
 
 BlobmanTab:AddLabel("Sistema Blobman Avançado")
 
+-- NOVO: Sistema de seleção de jogador
+BlobmanTab:AddSection({
+    Name = "Seleção de Jogador"
+})
+
+BlobmanTab:AddDropdown({
+    Name = "Selecionar Jogador",
+    Default = "Nenhum",
+    Options = GetPlayerList(),
+    Callback = function(Value)
+        if Value == "Nenhum" then
+            selectedPlayer = nil
+            OrionLib:MakeNotification({
+                Name = "Jogador Deselecionado",
+                Content = "Nenhum jogador selecionado",
+                Time = 3
+            })
+        else
+            selectedPlayer = Players:FindFirstChild(Value)
+            OrionLib:MakeNotification({
+                Name = "Jogador Selecionado",
+                Content = "Selecionado: " .. Value,
+                Time = 3
+            })
+        end
+    end
+})
+
+BlobmanTab:AddButton({
+    Name = "Teleportar para Jogador",
+    Callback = function()
+        if selectedPlayer then
+            TeleportToPlayer(selectedPlayer)
+        else
+            OrionLib:MakeNotification({
+                Name = "Erro",
+                Content = "Nenhum jogador selecionado!",
+                Time = 3
+            })
+        end
+    end
+})
+
+BlobmanTab:AddButton({
+    Name = "Kick Player",
+    Callback = function()
+        if selectedPlayer then
+            -- Primeiro teleporta para o jogador
+            local success = TeleportToPlayer(selectedPlayer)
+            
+            if success then
+                -- Espera um pouco antes de executar as ações
+                task.wait(0.5)
+                
+                OrionLib:MakeNotification({
+                    Name = "Destroy Iniciado",
+                    Content = "Aplicando ações em: " .. selectedPlayer.Name,
+                    Time = 5
+                })
+                
+                -- Suas ações contra o jogador aqui
+                if selectedPlayer.Character then
+                    for _, tool in ipairs(selectedPlayer.Character:GetChildren()) do
+                        if tool:IsA("Tool") then
+                            tool:Destroy()
+                        end
+                    end
+                end
+            end
+        else
+            OrionLib:MakeNotification({
+                Name = "Erro",
+                Content = "Nenhum jogador selecionado!",
+                Time = 3
+            })
+        end
+    end
+})
+
+BlobmanTab:AddButton({
+    Name = "Atualizar Lista de Jogadores",
+    Callback = function()
+        BlobmanTab:RefreshDropdown("Selecionar Jogador", GetPlayerList(), true)
+        OrionLib:MakeNotification({
+            Name = "Lista Atualizada",
+            Content = "Jogadores atualizados com sucesso!",
+            Time = 2
+        })
+    end
+})
+
 -- Toggle para Destroy Server
 BlobmanTab:AddToggle({
     Name = "Destroy server",
@@ -1909,7 +2339,7 @@ BlobmanTab:AddSlider({
     Min = 0.05,
     Max = 1,
     Default = 0.5,
-    Color = Color3.fromRGB(255,255,255),
+    Color = Color3.fromRGB(20, 35, 248, 1),
     Increment = 0.01,
     ValueName = "segundos",
     Callback = function(Value)
@@ -1960,7 +2390,7 @@ BlobmanTab:AddSlider({
     Min = 1,
     Max = 20,
     Default = 9,
-    Color = Color3.fromRGB(255,255,255),
+    Color = Color3.fromRGB(20, 35, 248, 1),
     Increment = 1,
     ValueName = "mísseis",
     Callback = function(Value)
@@ -2030,16 +2460,14 @@ local PremiumTab = Window:MakeTab({
     PremiumOnly = false
 })
 
-PremiumTab:AddButton({
-    Name = "Open Premium",
-    Callback = function()
-        OrionLib:MakeNotification({
-            Name = "Premium",
-            Content = "Você deve clicar em get premium para obter",
-            Time = 3
-        })          
-    end  -- FALTANDO ESTE 'end'
-})  -- E ESTE '}' ESTAVA NO LUGAR ERRADO
+PremiumTab:AddTextbox({
+    Name = "Inserir Chave Premium",
+    Default = "",
+    TextDisappear = false,
+    Callback = function(Value)
+        chaveInserida = Value
+    end
+})
 
 PremiumTab:AddButton({
     Name = "Ativar Premium",
@@ -2067,18 +2495,30 @@ PremiumTab:AddButton({
 -- Aba de Temas
 local CreditsTab = Window:MakeTab({
     Name = "Creditos",
-    Icon = "rbxassetid://10910211661",
+    Icon = "rbxassetid://18518485889",
     PremiumOnly = false
 })
 
 CreditsTab:AddLabel("Criador: Pato_Soud (l3vitomol2314)")
 CreditsTab:AddLabel("Testes: Caius (pepoooooooii5)")
 CreditsTab:AddLabel("Hub: Bliz_T (Blizz_T)")
---CreditsTab:AddLabel("gdodf")
---CreditsTab:AddLabel("fsdfs")
+CreditsTab:AddLabel("Ideia De Script: BlackHz (LUKINHAS123257)")
 
 -- Atualiza a lista de players inicialmente
 updatePlayerList()
+
+-- Atualiza automaticamente a lista quando jogadores entram/saem
+Players.PlayerAdded:Connect(function(player)
+    if player ~= Players.LocalPlayer then
+        BlobmanTab:RefreshDropdown("Selecionar Jogador", GetPlayerList(), true)
+        InspectTab:RefreshDropdown("Selecionar Player", GetPlayerList(), true)
+    end
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    BlobmanTab:RefreshDropdown("Selecionar Jogador", GetPlayerList(), true)
+    InspectTab:RefreshDropdown("Selecionar Player", GetPlayerList(), true)
+end)
 
 local configSalva = OrionLib:GetConfig()
 if configSalva and configSalva.PremiumAtivo then
