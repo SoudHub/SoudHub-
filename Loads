@@ -2,3 +2,9 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/SoudHub/SoudHub-/refs/heads/main/DeadprincesHub"))()
 2
 loadstring(game:HttpGet("https://raw.githubusercontent.com/SoudHub/SoudHub-/refs/heads/main/SoudHub"))()
+3
+loadstring(game:HttpGet("https://rawscripts.net/raw/Fling-Things-and-People-RuHUB-OP-FTAP-SCRIPT-UPDATED-39324"))()
+4
+loadstring(game:HttpGet("https://raw.githubusercontent.com/BlizTBr/scripts/refs/heads/main/FTAP.lua"))()
+5
+loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/d7be76c234d46ce6770101fded39760c.lua"))()
