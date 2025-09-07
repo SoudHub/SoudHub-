@@ -31,18 +31,9 @@ local OrionLib = {
 			Divider = Color3.fromRGB(80, 120, 200), -- Azul bebê mais escuro para divisores
 			Text = Color3.fromRGB(180, 220, 255), -- Azul bebê claro para textos
 			TextDark = Color3.fromRGB(150, 180, 230) -- Azul bebê amarelado para texto secundário
-		},
-
-       SoudHub = {
-    Main = Color3.fromRGB(10, 0, 15), -- Roxo quase preto para o fundo
-    Second = Color3.fromRGB(25, 0, 35), -- Roxo bem escuro para contraste
-    Stroke = Color3.fromRGB(180, 100, 255), -- Roxo/lilás claro para detalhes
-    Divider = Color3.fromRGB(120, 60, 200), -- Roxo médio para divisores
-    Text = Color3.fromRGB(220, 180, 255), -- Roxo claro para textos principais
-    TextDark = Color3.fromRGB(180, 140, 230) -- Roxo mais suave para texto secundário
-} 
+		}
 	},
-	SelectedTheme = "SoudHub",
+	SelectedTheme = "Bliz_T",
 	Folder = nil,
 	SaveCfg = false
 }
@@ -544,7 +535,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		WindowConfig.IntroEnabled = true
 	end
 	WindowConfig.FreeMouse = WindowConfig.FreeMouse or false
-	WindowConfig.KeyToOpenWindow = WindowConfig.KeyToOpenWindow or "RightShift"
+	WindowConfig.KeyToOpenWindow = WindowConfig.KeyToOpenWindow or "M"
 	WindowConfig.IntroText = WindowConfig.IntroText or "Orion Library"
 	WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
