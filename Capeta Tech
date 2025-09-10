@@ -1,0 +1,819 @@
+-- Carregando a interface Rayfield
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- Criando a janela principal
+local Window = Rayfield:CreateWindow({
+   Name = "DeadPrince's Hub",
+   LoadingTitle = "Carregando...",
+   LoadingSubtitle = "by DAN",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Pasta padrão
+      FileName = "TSB_Script"
+   }
+})
+-- Criando abas para categorias
+local PlayerTab = Window:CreateTab("Player Mods", 4483362458) -- Modificações de player
+local VisualsTab = Window:CreateTab("Visuals", 4483362458) -- Modificações visuais
+local MiscTab = Window:CreateTab("Misc", 4483362458) -- Outras funções
+local CustomizationTab = Window:CreateTab("Customization", 4483362458) -- Customização do hub
+local IllegalTab = Window:CreateTab("Ilegal (VIP)", 4483362458) -- Aba renomeada para Ilegal (VIP)
+local CreditsTab = Window:CreateTab("Créditos", 4483362458) -- Nova aba de Créditos
+-- Variáveis pra controlar as funções
+local ClickTeleportEnabled = false
+local InfiniteJumpEnabled = false
+local SpeedEnabled = false
+local JumpForceEnabled = false
+local UnlockEmotesEnabled = false
+local PersistFOVEnabled = false
+local M1ResetEnabled = false
+local PersistM1Reset = false
+local CapetaTechEnabled = false
+local player = game.Players.LocalPlayer
+local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
+local CurrentSpeed = 16
+local CurrentJump = 50
+local JumpBodyVelocity = nil
+local CurrentFOV = 70 -- Valor padrão do FOV
+local MarketplaceService = game:GetService("MarketplaceService")
+local oldOwns = nil
+local RunService = game:GetService("RunService")
+local persistConnection = nil
+local noEndlagConnection = nil
+local emoteDashConnection = nil
+local capetaTechConnection = nil
+local stgui = game:GetService("StarterGui")
+local uis = game:GetService("UserInputService")
+local frontDashArgs = {
+   [1] = {
+      ["Dash"] = Enum.KeyCode.W,
+      ["Key"] = Enum.KeyCode.Q,
+      ["Goal"] = "KeyPress"
+   }
+}
+-- Variáveis do Capeta Tech (Stealth Orbit)
+local CapetaTechCharacter = player.Character or player.CharacterAdded:Wait()
+local CapetaTechHumanoid = CapetaTechCharacter:WaitForChild('Humanoid')
+local CapetaTechHRP = CapetaTechCharacter:WaitForChild('HumanoidRootPart')
+local CapetaTechMaxDistance = 5
+local CapetaTechOrbitDistance = 2
+local CapetaTechOrbitSpeed = 3
+local CapetaTechVerticalOffset = -2.5
+local CapetaTechOrbitEnabled = false
+local CapetaTechOrbitAngle = 0
+local CapetaTechOriginalProperties = {}
+-- Função de Click Teleport
+local function TeleportToMouse()
+   local mouse = player:GetMouse()
+   local character = player.Character
+   if character and character:FindFirstChild("HumanoidRootPart") then
+      local ray = Ray.new(mouse.Hit.Position + Vector3.new(0, 100, 0), Vector3.new(0, -200, 0))
+      local part, position = workspace:FindPartOnRay(ray, character)
+      if position then
+         character.HumanoidRootPart.CFrame = CFrame.new(position + Vector3.new(0, 5, 0))
+      end
+   end
+end
+-- Conexão pro Click Teleport
+local connectionTeleport
+connectionTeleport = uis.InputBegan:Connect(function(input, gameProcessed)
+   if ClickTeleportEnabled and not gameProcessed then
+      if input.UserInputType == Enum.UserInputType.MouseButton1 and uis:IsKeyDown(Enum.KeyCode.C) then
+         TeleportToMouse()
+      end
+   end
+end)
+-- Função de Infinite Jump
+local connectionJump
+connectionJump = uis.InputBegan:Connect(function(input, gameProcessed)
+   if InfiniteJumpEnabled and not gameProcessed and input.KeyCode == Enum.KeyCode.Space then
+      if humanoid then
+         humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+      end
+   end
+end)
+-- Função pra aplicar força de pulo com BodyVelocity
+local function ApplyJumpForce()
+   if humanoid and JumpForceEnabled and humanoid:GetState() == Enum.HumanoidStateType.Jumping then
+      local character = player.Character
+      local rootPart = character and character:FindFirstChild("HumanoidRootPart")
+      if rootPart then
+         if JumpBodyVelocity then
+            JumpBodyVelocity:Destroy()
+         end
+         JumpBodyVelocity = Instance.new("BodyVelocity")
+         JumpBodyVelocity.MaxForce = Vector3.new(0, math.huge, 0)
+         JumpBodyVelocity.Velocity = Vector3.new(0, CurrentJump * 2, 0)
+         JumpBodyVelocity.Parent = rootPart
+         game:GetService("RunService").Heartbeat:Wait()
+         if JumpBodyVelocity then
+            JumpBodyVelocity:Destroy()
+            JumpBodyVelocity = nil
+         end
+      end
+   end
+end
+-- Função pra corrigir animações de corrida e manter velocidade
+local function UpdateSpeed()
+   if humanoid and SpeedEnabled then
+      humanoid.WalkSpeed = CurrentSpeed
+      for _, animTrack in pairs(humanoid:GetPlayingAnimationTracks()) do
+         animTrack:AdjustSpeed(1)
+      end
+   end
+end
+-- Funções auxiliares para M1 Reset
+local function frontDash()
+   player.Character.Communicate:FireServer(unpack(frontDashArgs))
+end
+local function noEndlagSetup(char)
+   if M1ResetEnabled and not noEndlagConnection then
+      noEndlagConnection = uis.InputBegan:Connect(function(input, t)
+         if t then return end
+         if input.KeyCode == Enum.KeyCode.Q and not uis:IsKeyDown(Enum.KeyCode.D) and not uis:IsKeyDown(Enum.KeyCode.A) and not uis:IsKeyDown(Enum.KeyCode.S) and char:FindFirstChild("UsedDash") then
+            frontDash()
+         end
+      end)
+   end
+end
+local function stopAnimation(char, animationId)
+   local humanoid = char:FindFirstChildWhichIsA("Humanoid")
+   if humanoid then
+      local animator = humanoid:FindFirstChildWhichIsA("Animator")
+      if animator then
+         for _, track in ipairs(animator:GetPlayingAnimationTracks()) do
+            if track.Animation and track.Animation.AnimationId == "rbxassetid://" .. tostring(animationId) then
+               track:Stop()
+            end
+         end
+      end
+   end
+end
+local function isAnimationRunning(char, animationId)
+   local humanoid = char:FindFirstChildWhichIsA("Humanoid")
+   if humanoid then
+      local animator = humanoid:FindFirstChildWhichIsA("Animator")
+      if animator then
+         for _, track in ipairs(animator:GetPlayingAnimationTracks()) do
+            if track.Animation and track.Animation.AnimationId == "rbxassetid://" .. tostring(animationId) then
+               return true
+            end
+         end
+      end
+   end
+   return false
+end
+local function emoteDashSetup(char)
+   if M1ResetEnabled and not emoteDashConnection then
+      local hrp = char:WaitForChild("HumanoidRootPart")
+      emoteDashConnection = uis.InputBegan:Connect(function(input, t)
+         if t then return end
+         if input.KeyCode == Enum.KeyCode.Q and not uis:IsKeyDown(Enum.KeyCode.W) and not uis:IsKeyDown(Enum.KeyCode.S) and not isAnimationRunning(char, 10491993682) then
+            local vel = hrp:FindFirstChild("dodgevelocity")
+            if vel then
+               vel:Destroy()
+               stopAnimation(char, 10480793962) -- side dash right
+               stopAnimation(char, 10480796021) -- side dash left
+            end
+         end
+      end)
+   end
+end
+local function DisableM1Reset()
+   if noEndlagConnection then
+      noEndlagConnection:Disconnect()
+      noEndlagConnection = nil
+   end
+   if emoteDashConnection then
+      emoteDashConnection:Disconnect()
+      emoteDashConnection = nil
+   end
+end
+local function EnableM1Reset(char)
+   noEndlagSetup(char)
+   emoteDashSetup(char)
+   if not _G.DisableNotification then
+      stgui:SetCore("SendNotification", {
+         Title = "m1reset ativado, fonte : Deadasche",
+         Icon = "rbxassetid://13333189503",
+         Text = "DeadPrincess endlag ativado bb!",
+         Duration = 5,
+         Button1 = "poidu",
+         Callback = function() end
+      })
+   end
+end
+-- Função Capeta Tech: Executa o Minimalist Stealth Orbit Script
+local function CapetaTech()
+   if CapetaTechEnabled then
+      if not capetaTechConnection then
+         -- Função para salvar estados originais
+         local function SaveCapetaTechStates()
+            CapetaTechOriginalProperties = {
+               WalkSpeed = CapetaTechHumanoid.WalkSpeed,
+               AutoRotate = CapetaTechHumanoid.AutoRotate,
+               PlatformStand = CapetaTechHumanoid.PlatformStand,
+            }
+            for _, part in pairs(CapetaTechCharacter:GetDescendants()) do
+               if part:IsA('BasePart') then
+                  CapetaTechOriginalProperties[part.Name .. '_CanCollide'] = part.CanCollide
+               end
+            end
+         end
+         -- Função para limpar estados
+         local function CleanupCapetaTech()
+            if not CapetaTechOriginalProperties.WalkSpeed then
+               return
+            end
+            CapetaTechHumanoid.WalkSpeed = CapetaTechOriginalProperties.WalkSpeed
+            CapetaTechHumanoid.AutoRotate = CapetaTechOriginalProperties.AutoRotate
+            CapetaTechHumanoid.PlatformStand = CapetaTechOriginalProperties.PlatformStand
+            CapetaTechHumanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
+            for _, part in pairs(CapetaTechCharacter:GetDescendants()) do
+               if
+                  part:IsA('BasePart')
+                  and CapetaTechOriginalProperties[part.Name .. '_CanCollide'] ~= nil
+               then
+                  part.CanCollide = CapetaTechOriginalProperties[part.Name .. '_CanCollide']
+               end
+            end
+            for _, part in pairs(CapetaTechCharacter:GetDescendants()) do
+               if part:IsA('BasePart') then
+                  part.Velocity = Vector3.new(0, 0, 0)
+                  part.RotVelocity = Vector3.new(0, 0, 0)
+               end
+            end
+         end
+         -- Função para encontrar alvo
+         local function GetCapetaTechTarget()
+            local closest, part = nil, nil
+            local shortest = CapetaTechMaxDistance
+            for _, p in pairs(game.Players:GetPlayers()) do
+               if
+                  p ~= player
+                  and p.Character
+                  and p.Character:FindFirstChild('HumanoidRootPart')
+               then
+                  local hrp = p.Character.HumanoidRootPart
+                  local dist = (hrp.Position - CapetaTechHRP.Position).Magnitude
+                  if dist < shortest then
+                     closest = p
+                     part = hrp
+                     shortest = dist
+                  end
+               end
+            end
+            return closest, part
+         end
+         -- Conexão para ativar/desativar órbita com tecla E
+         capetaTechConnection = uis.InputBegan:Connect(function(input, gp)
+            if gp or input.KeyCode ~= Enum.KeyCode.E or not CapetaTechEnabled then
+               return
+            end
+            if CapetaTechOrbitEnabled then
+               return
+            end
+            CapetaTechOrbitEnabled = true
+            SaveCapetaTechStates()
+            for _, part in pairs(CapetaTechCharacter:GetDescendants()) do
+               if part:IsA('BasePart') then
+                  part.CanCollide = false
+               end
+            end
+            CapetaTechHumanoid.AutoRotate = false
+            task.delay(0.6, function()
+               CapetaTechOrbitEnabled = false
+               CleanupCapetaTech()
+            end)
+         end)
+         -- Loop principal do Capeta Tech
+         RunService.Heartbeat:Connect(function(dt)
+            if not CapetaTechEnabled or not CapetaTechOrbitEnabled then
+               return
+            end
+            for _, part in pairs(CapetaTechCharacter:GetDescendants()) do
+               if part:IsA('BasePart') then
+                  part.CanCollide = false
+               end
+            end
+            local _, targetPart = GetCapetaTechTarget()
+            if targetPart then
+               CapetaTechOrbitAngle = CapetaTechOrbitAngle + (dt * CapetaTechOrbitSpeed * 6)
+               local targetPos = targetPart.Position
+               local newPos = Vector3.new(
+                  targetPos.X + (CapetaTechOrbitDistance * math.cos(CapetaTechOrbitAngle)),
+                  targetPos.Y + CapetaTechVerticalOffset,
+                  targetPos.Z + (CapetaTechOrbitDistance * math.sin(CapetaTechOrbitAngle))
+               )
+               CapetaTechHRP.CFrame = CFrame.new(newPos, targetPos)
+               CapetaTechHRP.Velocity = Vector3.new(0, 0, 0)
+               CapetaTechHRP.RotVelocity = Vector3.new(0, 0, 0)
+            end
+         end)
+         -- Handle respawn para Capeta Tech
+         player.CharacterAdded:Connect(function(newChar)
+            CapetaTechCharacter = newChar
+            CapetaTechHumanoid = newChar:WaitForChild('Humanoid')
+            CapetaTechHRP = newChar:WaitForChild('HumanoidRootPart')
+            CapetaTechOrbitEnabled = false
+            CapetaTechOriginalProperties = {}
+         end)
+         Rayfield:Notify({
+            Title = "Capeta Tech",
+            Content = "Órbita stealth ativada! Pressione E para orbitar o jogador mais próximo.",
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   else
+      if capetaTechConnection then
+         capetaTechConnection:Disconnect()
+         capetaTechConnection = nil
+         Rayfield:Notify({
+            Title = "Capeta Tech",
+            Content = "Órbita stealth desativada.",
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   end
+end
+-- Atualiza o humanoid quando o personagem respawnar
+player.CharacterAdded:Connect(function(character)
+   humanoid = character:WaitForChild("Humanoid")
+   if SpeedEnabled then
+      humanoid.WalkSpeed = CurrentSpeed
+   else
+      humanoid.WalkSpeed = 16
+   end
+   humanoid.JumpHeight = 5
+   if PersistM1Reset and M1ResetEnabled then
+      DisableM1Reset() -- Desativa para limpar conexões antigas
+      EnableM1Reset(character) -- Reativa para o novo personagem
+   end
+end)
+-- Conexões pra Jump Force e Speed
+game:GetService("RunService").Heartbeat:Connect(ApplyJumpForce)
+game:GetService("RunService").RenderStepped:Connect(UpdateSpeed)
+-- Elementos na aba Player Mods
+local ToggleTeleport = PlayerTab:CreateToggle({
+   Name = "Click Teleport (C + M1)",
+   CurrentValue = false,
+   Flag = "ClickTeleportToggle",
+   Callback = function(Value)
+      ClickTeleportEnabled = Value
+      Rayfield:Notify({
+         Title = "Click Teleport",
+         Content = Value and "Ativado! Pressione C + Clique Esquerdo pra teleportar." or "Desativado.",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end,
+})
+local SliderSpeed = PlayerTab:CreateSlider({
+   Name = "Speed (0-1000)",
+   Range = {0, 1000},
+   Increment = 10,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "SpeedSlider",
+   Callback = function(Value)
+      CurrentSpeed = Value
+      if humanoid and SpeedEnabled then
+         humanoid.WalkSpeed = Value
+      end
+      Rayfield:Notify({
+         Title = "Speed",
+         Content = "Velocidade ajustada para " .. Value,
+         Duration = 5,
+         Image = 4483362458
+      })
+   end,
+})
+local ToggleSpeed = PlayerTab:CreateToggle({
+   Name = "Enable Speed",
+   CurrentValue = false,
+   Flag = "SpeedToggle",
+   Callback = function(Value)
+      SpeedEnabled = Value
+      if humanoid then
+         humanoid.WalkSpeed = Value and CurrentSpeed or 16
+         Rayfield:Notify({
+            Title = "Speed",
+            Content = Value and "Velocidade ativada com " .. CurrentSpeed .. "!" or "Velocidade voltou ao padrão (16).",
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   end,
+})
+local SliderJump = PlayerTab:CreateSlider({
+   Name = "Jump Force (0-1000)",
+   Range = {0, 1000},
+   Increment = 10,
+   Suffix = "Jump",
+   CurrentValue = 50,
+   Flag = "JumpSlider",
+   Callback = function(Value)
+      CurrentJump = Value
+      Rayfield:Notify({
+         Title = "Jump Force",
+         Content = "Força de pulo ajustada para " .. Value,
+         Duration = 5,
+         Image = 4483362458
+      })
+   end,
+})
+local ToggleJumpForce = PlayerTab:CreateToggle({
+   Name = "Enable Jump Force",
+   CurrentValue = false,
+   Flag = "JumpForceToggle",
+   Callback = function(Value)
+      JumpForceEnabled = Value
+      if humanoid then
+         humanoid.JumpHeight = 5
+         Rayfield:Notify({
+            Title = "Jump Force",
+            Content = Value and "Força de pulo ativada com " .. CurrentJump .. "!" or "Força de pulo voltou ao padrão.",
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   end,
+})
+local ToggleInfiniteJump = PlayerTab:CreateToggle({
+   Name = "Infinite Jump (Space)",
+   CurrentValue = false,
+   Flag = "InfiniteJumpToggle",
+   Callback = function(Value)
+      InfiniteJumpEnabled = Value
+      Rayfield:Notify({
+         Title = "Infinite Jump",
+         Content = Value and "Ativado! Pressione Espaço pra pular infinitamente." or "Desativado.",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end,
+})
+-- Elementos na aba Visuals
+local SliderFOV = VisualsTab:CreateSlider({
+   Name = "FOV (70-120)",
+   Range = {70, 120},
+   Increment = 1,
+   Suffix = "FOV",
+   CurrentValue = 70,
+   Flag = "FOVSlider",
+   Callback = function(Value)
+      CurrentFOV = Value
+      game.Workspace.CurrentCamera.FieldOfView = CurrentFOV
+      Rayfield:Notify({
+         Title = "FOV",
+         Content = "FOV ajustado para " .. Value,
+         Duration = 5,
+         Image = 4483362458
+      })
+   end,
+})
+local TogglePersistFOV = VisualsTab:CreateToggle({
+   Name = "Persist FOV after Death",
+   CurrentValue = false,
+   Flag = "PersistFOVToggle",
+   Callback = function(Value)
+      PersistFOVEnabled = Value
+      if Value then
+         persistConnection = RunService.RenderStepped:Connect(function()
+            if game.Workspace.CurrentCamera then
+               game.Workspace.CurrentCamera.FieldOfView = CurrentFOV
+            end
+         end)
+         Rayfield:Notify({
+            Title = "Persist FOV",
+            Content = "Ativado! FOV agora persiste após morte/reset.",
+            Duration = 5,
+            Image = 4483362458
+         })
+      else
+         if persistConnection then
+            persistConnection:Disconnect()
+            persistConnection = nil
+         end
+         Rayfield:Notify({
+            Title = "Persist FOV",
+            Content = "Desativado.",
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   end,
+})
+-- Elementos na aba Misc
+local ToggleUnlockEmotes = MiscTab:CreateToggle({
+   Name = "Unlock Extra Emote Slots",
+   CurrentValue = false,
+   Flag = "UnlockEmotesToggle",
+   Callback = function(Value)
+      if Value then
+         if not oldOwns then
+            oldOwns = MarketplaceService.UserOwnsGamePassAsync
+            MarketplaceService.UserOwnsGamePassAsync = function(self, userId, passId)
+               if passId == 229966673 then
+                  return true
+               end
+               return oldOwns(self, userId, passId)
+            end
+         end
+         Rayfield:Notify({
+            Title = "Extra Emote Slots",
+            Content = "Slots extras desbloqueados!",
+            Duration = 5,
+            Image = 4483362458
+         })
+      else
+         if oldOwns then
+            MarketplaceService.UserOwnsGamePassAsync = oldOwns
+            oldOwns = nil
+         end
+         Rayfield:Notify({
+            Title = "Extra Emote Slots",
+            Content = "Desbloqueio removido.",
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   end,
+})
+-- Elementos na aba Customization
+local DropdownThemes = CustomizationTab:CreateDropdown({
+   Name = "Select Preset Theme",
+   Options = {"Default", "Dark", "Light", "Blue", "Red"},
+   CurrentOption = "Default",
+   Flag = "ThemeDropdown",
+   Callback = function(Option)
+      if Option and Rayfield.SetTheme then
+         Rayfield:SetTheme(Option)
+         Rayfield:Notify({
+            Title = "Theme",
+            Content = "Tema alterado para " .. Option,
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   end,
+})
+local function UpdateThemeSafely(themeTable)
+   if Rayfield.UpdateTheme then
+      Rayfield:UpdateTheme(themeTable)
+   end
+end
+CustomizationTab:CreateColorPicker({
+   Name = "Background Color",
+   Color = Color3.fromRGB(25, 25, 25),
+   Flag = "BackgroundColorPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({Background = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor de fundo alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Text Color",
+   Color = Color3.fromRGB(240, 240, 240),
+   Flag = "TextColorPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({TextColor = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor do texto alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Topbar Color",
+   Color = Color3.fromRGB(34, 34, 34),
+   Flag = "TopbarColorPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({Topbar = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor da topbar alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Shadow Color",
+   Color = Color3.fromRGB(20, 20, 20),
+   Flag = "ShadowColorPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({Shadow = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor da sombra alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Notification Background",
+   Color = Color3.fromRGB(20, 20, 20),
+   Flag = "NotificationBackgroundPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({NotificationBackground = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor de fundo das notificações alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Tab Background",
+   Color = Color3.fromRGB(80, 80, 80),
+   Flag = "TabBackgroundPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({TabBackground = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor de fundo das tabs alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Tab Background Selected",
+   Color = Color3.fromRGB(210, 210, 210),
+   Flag = "TabBackgroundSelectedPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({TabBackgroundSelected = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor de fundo da tab selecionada alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Element Background",
+   Color = Color3.fromRGB(35, 35, 35),
+   Flag = "ElementBackgroundPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({ElementBackground = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor de fundo dos elementos alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Slider Background",
+   Color = Color3.fromRGB(50, 138, 220),
+   Flag = "SliderBackgroundPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({SliderBackground = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor de fundo do slider alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Toggle Background",
+   Color = Color3.fromRGB(30, 30, 30),
+   Flag = "ToggleBackgroundPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({ToggleBackground = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor de fundo do toggle alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+CustomizationTab:CreateColorPicker({
+   Name = "Toggle Enabled",
+   Color = Color3.fromRGB(0, 146, 214),
+   Flag = "ToggleEnabledPicker",
+   Callback = function(Color)
+      UpdateThemeSafely({ToggleEnabled = Color})
+      Rayfield:Notify({
+         Title = "Customization",
+         Content = "Cor do toggle ativado alterada!",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end
+})
+-- Elementos na aba Créditos
+CreditsTab:CreateParagraph({
+   Title = "Créditos",
+   Content = "Feito por Deadprinces"
+})
+CreditsTab:CreateButton({
+   Name = "Join Discord Server",
+   Callback = function()
+      -- Tenta abrir o link do Discord no Roblox
+      if setclipboard then
+         setclipboard("https://discord.gg/gZqSXhtW")
+         Rayfield:Notify({
+            Title = "Discord Link",
+            Content = "Link do servidor do Discord copiado para a área de transferência!",
+            Duration = 5,
+            Image = 4483362458
+         })
+      else
+         Rayfield:Notify({
+            Title = "Erro",
+            Content = "Não foi possível copiar o link do Discord. Acesse manualmente: https://discord.gg/gZqSXhtW",
+            Duration = 5,
+            Image = 4483362458
+         })
+      end
+   end,
+})
+-- Inicialização do M1 Reset para o personagem atual
+if player.Character and M1ResetEnabled then
+   EnableM1Reset(player.Character)
+end
+-- Persistência no teleporte
+local queueteleport = (syn and syn.queue_on_teleport) or queue_on_teleport or (fluxus and fluxus.queue_on_teleport)
+game.Players.LocalPlayer.OnTeleport:Connect(function(State)
+   if queueteleport and M1ResetEnabled then
+      queueteleport('loadstring(game:HttpGet("https://raw.githubusercontent.com/DemixPro/m1reset-tsb-queueonteleport/refs/heads/main/m1reset-with-queueonteleport.lua"))()')
+   end
+end)
+-- Elementos na aba Ilegal (VIP)
+local ToggleM1Reset = IllegalTab:CreateToggle({
+   Name = "Enable M1 Reset",
+   CurrentValue = false,
+   Flag = "M1ResetToggle",
+   Callback = function(Value)
+      M1ResetEnabled = Value
+      if player.Character then
+         if Value then
+            EnableM1Reset(player.Character)
+            Rayfield:Notify({
+               Title = "M1 Reset",
+               Content = "Ativado com sucesso!",
+               Duration = 5,
+               Image = 4483362458
+            })
+         else
+            DisableM1Reset()
+            Rayfield:Notify({
+               Title = "M1 Reset",
+               Content = "Desativado.",
+               Duration = 5,
+               Image = 4483362458
+            })
+         end
+      end
+   end,
+})
+local TogglePersistM1Reset = IllegalTab:CreateToggle({
+   Name = "Persist M1 Reset on Reset",
+   CurrentValue = false,
+   Flag = "PersistM1ResetToggle",
+   Callback = function(Value)
+      PersistM1Reset = Value
+      if Value and M1ResetEnabled and player.Character then
+         EnableM1Reset(player.Character)
+      end
+      Rayfield:Notify({
+         Title = "Persist M1 Reset",
+         Content = Value and "Ativado! M1 Reset persiste após reset." or "Desativado.",
+         Duration = 5,
+         Image = 4483362458
+      })
+   end,
+})
+local ToggleCapetaTech = IllegalTab:CreateToggle({
+   Name = "Capeta Tech (Press E)",
+   CurrentValue = false,
+   Flag = "CapetaTechToggle",
+   Callback = function(Value)
+      CapetaTechEnabled = Value
+      CapetaTech()
+   end,
+})
+-- Notificação inicial
+Rayfield:Notify({
+   Title = "Script Carregado",
+   Content = "Bem-vindo ao DeadPrince's Hub! M1 Reset, Capeta Tech (Press E) e Créditos carregados!",
+   Duration = 5,
+   Image = 4483362458
+})
