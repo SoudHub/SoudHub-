@@ -534,7 +534,7 @@ function OrionLib:MakeWindow(WindowConfig)
 	if WindowConfig.IntroEnabled == nil then
 		WindowConfig.IntroEnabled = true
 	end
-	WindowConfig.FreeMouse = WindowConfig.FreeMouse or false
+	WindowConfig.FreeMouse = WindowConfig.FreeMouse or true
 	WindowConfig.KeyToOpenWindow = WindowConfig.KeyToOpenWindow or "M"
 	WindowConfig.IntroText = WindowConfig.IntroText or "Orion Library"
 	WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
